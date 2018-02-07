@@ -1,5 +1,6 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { Region } from '../region'
+import { QueryLabelingComponent } from '../query-labeling/query-labeling.component';
 
 @Component({
   selector: 'app-feedback',
@@ -13,6 +14,7 @@ export class FeedbackComponent implements OnInit {
   set labels(labels) {
     // Custom setter because I'll need it later almost certainly.
     this._labels = labels;
+    this.selectRegion();    
   }
 
   get labels() {
@@ -26,19 +28,30 @@ export class FeedbackComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {
-
   }
 
   prev() {
     if (this.labelIndex > 0) {
       this.labelIndex--;
     }
+    this.selectRegion();
   }
 
   next() {
     if (this.labelIndex < this._labels.length - 1) {
       this.labelIndex++
     }
+    this.selectRegion();
+  }
+
+  selectRegion() {
+    if (this.labels && this.labels[this.labelIndex]) {
+      this.onSelectRegionId.emit(this.labels[this.labelIndex].id)
+    }
+  }
+
+  keyUp(val) {
+    console.log(val);
   }
 
 }

@@ -10,4 +10,4 @@
   </div>
 </div>
 <br>
-<button (click)="submit()">Submit</button>
+<button *ngIf="regions.length > 0" (click)="submit()">Submit</button>

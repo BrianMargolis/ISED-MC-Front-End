@@ -1,8 +1,8 @@
 <div class="container-fluid">
-    <app-input-audio [labels]="labels" (onUpdateRegions)="onUpdateRegions($event)" (onSelectRegion)="onSelectRegion($event)"></app-input-audio>
+    <app-input-audio [labels]="labels" [selectedRegionId]="selectedRegionId" (onUpdateRegions)="onUpdateRegions($event)" (onSelectRegionId)="onSelectRegionId($event)"></app-input-audio>
     <br>
     <br>
-    <app-query-labeling [regions]="regions" [selectedRegion]="selectedRegion" (onUpdateLabels)="onUpdateLabels($event)"></app-query-labeling>
+    <app-query-labeling [regions]="regions" [selectedRegionId]="selectedRegionId" (onUpdateLabels)="onUpdateLabels($event)"></app-query-labeling>
     <br>
     <br>
     <app-feedback [labels]="labels"></app-feedback>

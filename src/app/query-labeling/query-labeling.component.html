@@ -1,7 +1,7 @@
 <div *ngIf="!submitted && regions">
   <div class="row" *ngFor="let region of regions; let i = index">
     <div class="col-6">
-      <p [ngStyle]="{'font-weight': selectedRegion && region.id == selectedRegion.id ? 'bold' : 'normal'}">Region #{{i}} ({{region.id}}):</p>
+      <p [ngStyle]="{'font-weight': region.id == selectedRegionId ? 'bold' : 'normal'}">Region #{{i}} ({{region.id}}):</p>
       <p>Start: {{region.start | number:'1.0-1'}} sec.</p>
       <p>End: {{region.end | number:'1.0-1'}} sec.</p>
     </div>

@@ -9,7 +9,7 @@ import { Region } from '../region';
 })
 export class QueryLabelingComponent implements OnInit {
   @Input() regions;
-  @Input() selectedRegion;
+  @Input() selectedRegionId;
   regionLabels = {};
   submitted = false;
 

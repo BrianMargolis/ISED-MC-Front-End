@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { Region } from '../region'
 
 @Component({
@@ -18,6 +18,8 @@ export class FeedbackComponent implements OnInit {
   get labels() {
     return this._labels;
   }
+
+  @Output() onSelectRegionId = new EventEmitter<any>();
 
   labelIndex = 0;
 

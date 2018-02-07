@@ -1,6 +1,5 @@
 import { Component, OnInit, EventEmitter, Output, Input } from '@angular/core';
 import { } from 'colormap';
-import * as $ from 'jquery';
 import { Region } from '../region';
 
 @Component({
@@ -48,14 +47,12 @@ export class InputAudioComponent implements OnInit {
     return this._labels;
   }
 
+
   // TODO: specify type  
-  @Output() onSelectRegion = new EventEmitter<any>();
+  @Output() onSelectRegionId = new EventEmitter<any>();
   @Output() onUpdateRegions = new EventEmitter<any>();
   ws = null;
-  selectedRegion = null;
-
-  SELECTED_COLOR = 'rgba(0, 0, 0, .6)'
-  UNSELECTED_COLOR = 'rgba(0, 0, 0, .3)'
+  @Input() selectedRegionId;
 
   constructor() { }
 
@@ -105,16 +102,7 @@ export class InputAudioComponent implements OnInit {
   }
 
   selectRegion(region) {
-    this.selectedRegion = region;
-    this.onSelectRegion.emit(region);
-    // Using JQuery in Angular is nearly always a bad decision.
-    // Here, it's the only option, because there's no way to slip a more Angular-esque 
-    // concept like model binding into the wavesurfer API without heavy modifications
-    // to the API
-    // So, we use JQuery.
-    var region_name = region.id;
-    $("region[data-id='" + region_name + "']").css('backgroundColor', this.SELECTED_COLOR);
-    $("region[data-id!='" + region_name + "']").css('backgroundColor', this.UNSELECTED_COLOR);
+    this.onSelectRegionId.emit(region.id);
   }
 
   // Playback
@@ -123,8 +111,9 @@ export class InputAudioComponent implements OnInit {
       this.ws.pause();
     } else {
       // if a region is selected, play that
-      if (this.selectedRegion) {
-        this.ws.play(this.selectedRegion.start, this.selectedRegion.end);
+      if (this.selectedRegionId) {
+        var selectedRegion = this.ws.regions.list[this.selectedRegionId];
+        this.ws.play(selectedRegion.start, selectedRegion.end);
       } else {
         this.ws.play();
       }
@@ -132,15 +121,19 @@ export class InputAudioComponent implements OnInit {
   }
 
   nextRegion() {
-    this.nearestRegion(region => region.start > this.selectedRegion.start, (soFar, current) => current.start < soFar.start ? current : soFar);
+    var selectedRegion = this.ws.regions.list[this.selectedRegionId];
+    
+    this.nearestRegion(region => region.start > selectedRegion.start, (soFar, current) => current.start < soFar.start ? current : soFar);
   }
 
   prevRegion() {
-    this.nearestRegion(region => region.start < this.selectedRegion.start, (soFar, current) => current.start > soFar.start ? current : soFar);
+    var selectedRegion = this.ws.regions.list[this.selectedRegionId];
+    
+    this.nearestRegion(region => region.start < selectedRegion.start, (soFar, current) => current.start > soFar.start ? current : soFar);
   }
 
   nearestRegion(sidePred: (any) => boolean, nearestPred: (soFar: any, current: any) => any) {
-    if (!this.selectedRegion) {
+    if (!this.selectedRegionId) {
       return;
     }
 

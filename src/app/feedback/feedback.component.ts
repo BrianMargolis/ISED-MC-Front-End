@@ -14,7 +14,9 @@ export class FeedbackComponent implements OnInit {
   set labels(labels) {
     // Custom setter because I'll need it later almost certainly.
     this._labels = labels;
-    this.selectRegion();    
+    setTimeout(() => { // hack to fix an angular issue with change detection: https://blog.angularindepth.com/everything-you-need-to-know-about-the-expressionchangedafterithasbeencheckederror-error-e3fd9ce7dbb4
+      this.selectRegion();
+    });
   }
 
   get labels() {
@@ -50,8 +52,8 @@ export class FeedbackComponent implements OnInit {
     }
   }
 
-  keyUp(val) {
-    console.log(val);
+  test($event) {
+    console.log($event)
   }
 
 }

@@ -1,5 +1,5 @@
 import { Component, OnInit, EventEmitter, Output } from '@angular/core';
-import { } from '../../../lib/colormap.min.js';
+import { } from 'colormap';
 import * as $ from 'jquery';
 
 @Component({
@@ -17,8 +17,14 @@ export class InputAudioComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {
-    // TODO: make this work (https://www.npmjs.com/package/color-map)?
-    var spectrogramColorMap = colormap();
+    // Other color options: https://www.npmjs.com/package/colormap
+    // Right now it seems that only jet works. Unclear why.
+    var spectrogramColorMap = colormap({
+      colormap: 'jet',
+      nshades: 256,
+      format: 'rgb',
+      alpha: 1
+    });
 
     var height = 256;
     this.ws = WaveSurfer.create({
@@ -27,11 +33,9 @@ export class InputAudioComponent implements OnInit {
       // For the spectrogram the height is half the number of fftSamples
       fftSamples: height * 2,
       height: height,
-      // colorMap: spectrogramColorMap
-      // visualization: "spectrogram"
+      colorMap: spectrogramColorMap,
+      visualization: "spectrogram"
     });
-    this.ws.params.visualization = "spectrogram"
-    this.ws.params.feedback = "none"
 
     this.ws.load('https://ia902606.us.archive.org/35/items/shortpoetry_047_librivox/song_cjrg_teasdale_64kb.mp3')
 

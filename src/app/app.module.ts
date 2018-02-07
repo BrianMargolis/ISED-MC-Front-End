@@ -6,12 +6,14 @@ import { InputAudioComponent } from './input-audio/input-audio.component';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { QueryLabelingComponent } from './query-labeling/query-labeling.component';
 import { BackendService } from './backend.service';
+import { FeedbackComponent } from './feedback/feedback.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     InputAudioComponent,
-    QueryLabelingComponent
+    QueryLabelingComponent,
+    FeedbackComponent
   ],
   imports: [
     BrowserModule

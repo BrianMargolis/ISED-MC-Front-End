@@ -1,4 +1,5 @@
 <div class="container-fluid">
     <app-input-audio (onUpdateRegions)="onUpdateRegions($event)" (onSelectRegion)="onSelectRegion($event)"></app-input-audio>
-    <app-query-labeling [regions]="regions" [selectedRegion]="selectedRegion" (onUpdateRegionsForFeedback)="onUpdateRegionsForFeedback($event)"></app-query-labeling>
+    <app-query-labeling [regions]="regions" [selectedRegion]="selectedRegion" (onUpdateLabels)="onUpdateLabels($event)"></app-query-labeling>
+    <app-feedback [labels]="labels"></app-feedback>
 </div>

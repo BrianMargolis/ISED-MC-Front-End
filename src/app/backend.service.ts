@@ -17,7 +17,7 @@ export class BackendService {
       this.regionLabels = regionLabels;
 
       // Eventually, make an HTTP request. For now, mock stuff.
-      observer.next(this._mockRegionsForFeedback())
+      observer.next(this._mockLabelsForFeedback())
       observer.complete()
     })
   }
@@ -29,12 +29,12 @@ export class BackendService {
       console.log(regions);
 
       // Eventually, make an HTTP request. For now, mock stuff.
-      observer.next(this._mockRegionsForFeedback())
+      observer.next(this._mockLabelsForFeedback())
       observer.complete()
     })
   }
 
-  _mockRegionsForFeedback(): Region[] {
+  _mockLabelsForFeedback(): Region[] {
     // Mock 5 randomly placed and sized intervals for each label
     var regions = [];
     var mockedLabelsPerRegion = 5;
@@ -43,7 +43,7 @@ export class BackendService {
         var start = Math.random() * 44;
         var end = Math.min(44, start + Math.random() * 10);
         var feedback = new RegionFeedback();
-        var region = new Region(region_name, start, end, feedback);
+        var region = new Region(this.regionLabels[region_name], start, end, feedback);
         regions.push(region);
       }
     }

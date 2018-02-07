@@ -1,4 +1,4 @@
-import { Component, OnInit, EventEmitter, Output } from '@angular/core';
+import { Component, OnInit, EventEmitter, Output, Input } from '@angular/core';
 import { } from 'colormap';
 import * as $ from 'jquery';
 
@@ -8,6 +8,7 @@ import * as $ from 'jquery';
   styleUrls: ['./input-audio.component.scss']
 })
 export class InputAudioComponent implements OnInit {
+  @Input() labels;
   // TODO: specify type  
   @Output() onSelectRegion = new EventEmitter<any>();
   @Output() onUpdateRegions = new EventEmitter<any>();
@@ -51,6 +52,7 @@ export class InputAudioComponent implements OnInit {
     })
   }
 
+  // Update the app component about changes to selections on the input audio
   updateRegions() {
     var regions = this.ws.regions.list;
     // Annoyingly, the regions come back as an object with many region members, not a list. 
@@ -73,6 +75,7 @@ export class InputAudioComponent implements OnInit {
     $("region[data-id!='" + region_name + "']").css('backgroundColor', 'rgba(0, 0, 0, .3)');
   }
 
+  // Playback
   playPause() {
     if (this.ws.isPlaying()) {
       this.ws.pause();
@@ -110,6 +113,7 @@ export class InputAudioComponent implements OnInit {
     }
   }
 
+  // Private utilities
   _regionsToRegionList(regions) {
     var region_list = [];
     for (var region_name in regions) {

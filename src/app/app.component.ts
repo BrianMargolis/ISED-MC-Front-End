@@ -8,6 +8,7 @@ import { Component } from '@angular/core';
 export class AppComponent {
   regions = null;
   selectedRegion = null;
+  labels = null;
 
   onUpdateRegions($regions) {
     this.regions = $regions;
@@ -17,8 +18,9 @@ export class AppComponent {
     this.selectedRegion = $region;
   }
 
-  onUpdateRegionsForFeedback($regions) {
-    console.log($regions);
+  onUpdateLabels($labels) {
+    console.log($labels);
+    this.labels = $labels;
   }
 
 }

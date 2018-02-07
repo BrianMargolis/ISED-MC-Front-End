@@ -2,3 +2,9 @@
 <button (click)="playPause()">
   <i class="fa fa-{{ws.isPlaying() ? 'pause' : 'play'}}" aria-hidden="true"></i>
 </button>
+<button (click)="prevRegion()">
+  <i class="fa fa-step-backward" aria-hidden="true"></i>
+</button>
+<button (click)="nextRegion()">
+  <i class="fa fa-step-forward" aria-hidden="true"></i>
+</button>

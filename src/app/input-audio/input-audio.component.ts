@@ -56,10 +56,7 @@ export class InputAudioComponent implements OnInit {
     // Annoyingly, the regions come back as an object with many region members, not a list. 
     // Angular templates can't iterate over an object, so let's turn it into a list now.
     // Also lets us use some of the psuedo-functional array operations like .map, .filter
-    var region_list = [];
-    for (var region_name in regions) {
-      region_list.push(regions[region_name]);
-    }
+    var region_list = this._regionsToRegionList(regions);
     this.onUpdateRegions.emit(region_list);
   }
 
@@ -81,7 +78,7 @@ export class InputAudioComponent implements OnInit {
       this.ws.pause();
     } else {
       // if a region is selected, play that
-      if (this.selectedRegion != null) {
+      if (this.selectedRegion) {
         this.ws.play(this.selectedRegion.start, this.selectedRegion.end);
       } else {
         this.ws.play();
@@ -89,4 +86,33 @@ export class InputAudioComponent implements OnInit {
     }
   }
 
+  nextRegion() {
+    this.nearestRegion(region => region.start > this.selectedRegion.start, (soFar, current) => current.start < soFar.start ? current : soFar);
+  }
+
+  prevRegion() {
+    this.nearestRegion(region => region.start < this.selectedRegion.start, (soFar, current) => current.start > soFar.start ? current : soFar);
+  }
+
+  nearestRegion(sidePred: (any) => boolean, nearestPred: (soFar: any, current: any) => any) {
+    if (!this.selectedRegion) {
+      return;
+    }
+
+    var regions = this.ws.regions.list;
+    var region_list = this._regionsToRegionList(regions);
+    var side = region_list.filter(sidePred)
+    if (side.length > 0) {
+      var nearest = side.reduce(nearestPred);
+      this.selectRegion(nearest);
+    }
+  }
+
+  _regionsToRegionList(regions) {
+    var region_list = [];
+    for (var region_name in regions) {
+      region_list.push(regions[region_name]);
+    }
+    return region_list;
+  }
 }

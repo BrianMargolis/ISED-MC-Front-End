@@ -27,7 +27,8 @@
         "../lib/wavesurfer.spectrogram.min.js",
         "../lib/wavesurfer.regions.js",
         "../lib/wavesurfer.labels.js",
-        "../lib/wavesurfer.drawer.extended.js"
+        "../lib/wavesurfer.drawer.extended.js",
+        "../lib/colormap.min.js"
       ],
       "environmentSource": "environments/environment.ts",
       "environments": {

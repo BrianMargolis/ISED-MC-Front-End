@@ -1,5 +1,6 @@
 import { Component, OnInit, EventEmitter, Output } from '@angular/core';
-import { } from '../../../lib/colormap.min.js'
+import { } from '../../../lib/colormap.min.js';
+import * as $ from 'jquery';
 
 @Component({
   selector: 'app-input-audio',
@@ -7,9 +8,11 @@ import { } from '../../../lib/colormap.min.js'
   styleUrls: ['./input-audio.component.scss']
 })
 export class InputAudioComponent implements OnInit {
-  // TODO: specify type
-  @Output() onUpdateRegions = new EventEmitter<object>();
+  // TODO: specify type  
+  @Output() onSelectRegion = new EventEmitter<any>();
+  @Output() onUpdateRegions = new EventEmitter<any>();
   ws = null;
+  selectedRegion = null;
 
   constructor() { }
 
@@ -37,6 +40,10 @@ export class InputAudioComponent implements OnInit {
     var input_audio = this;
     this.ws.on('region-updated', function (region) {
       input_audio.updateRegions();
+    });
+
+    this.ws.on('region-click', function (region) {
+      input_audio.selectRegion(region);
     })
   }
 
@@ -50,6 +57,19 @@ export class InputAudioComponent implements OnInit {
       region_list.push(regions[region_name]);
     }
     this.onUpdateRegions.emit(region_list);
+  }
+
+  selectRegion(region) {
+    this.selectedRegion = region;
+    this.onSelectRegion.emit(region);
+    // Using JQuery in Angular is nearly always a bad decision.
+    // Here, it's the only option, because there's no way to slip a more Angular-esque 
+    // concept like model binding into the wavesurfer API without heavy modifications
+    // to the API
+    // So, we use JQuery.
+    var region_name = region.id;
+    $("region[data-id='" + region_name + "']").css('backgroundColor', 'rgba(100, 100, 100, .5');
+    $("region[data-id!='" + region_name + "']").css('backgroundColor', 'rgba(100, 100, 100, .2');
   }
 
   playPause() {

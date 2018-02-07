@@ -7,9 +7,14 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   regions = null;
+  selectedRegion = null;
 
   onUpdateRegions($regions) {
     this.regions = $regions;
+  }
+
+  onSelectRegion($region) {
+    this.selectedRegion = $region;
   }
 
 }

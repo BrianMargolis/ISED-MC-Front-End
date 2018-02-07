@@ -7,6 +7,7 @@ import { Component, OnInit, Input } from '@angular/core';
 })
 export class QueryLabelingComponent implements OnInit {
   @Input() regions;
+  @Input() selectedRegion;
 
   ngOnInit() {
   }

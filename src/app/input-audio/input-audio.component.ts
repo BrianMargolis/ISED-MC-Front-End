@@ -18,8 +18,7 @@ export class InputAudioComponent implements OnInit {
     var height = 256;
     this.ws = WaveSurfer.create({
       container: '.input_audio',
-      waveColor: '#FF00FF',
-      progressColor: '#FF00FF',
+      cursorColor: '#FFFFFF',
       // For the spectrogram the height is half the number of fftSamples
       fftSamples: height * 2,
       height: height,

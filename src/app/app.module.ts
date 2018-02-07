@@ -5,6 +5,7 @@ import { AppComponent } from './app.component';
 import { InputAudioComponent } from './input-audio/input-audio.component';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { QueryLabelingComponent } from './query-labeling/query-labeling.component';
+import { BackendService } from './backend.service';
 
 @NgModule({
   declarations: [
@@ -15,7 +16,7 @@ import { QueryLabelingComponent } from './query-labeling/query-labeling.componen
   imports: [
     BrowserModule
   ],
-  providers: [],
+  providers: [BackendService],
   bootstrap: [AppComponent],
   schemas: [
     NO_ERRORS_SCHEMA

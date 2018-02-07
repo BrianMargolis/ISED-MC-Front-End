@@ -101,7 +101,9 @@ export class InputAudioComponent implements OnInit {
 
     var regions = this.ws.regions.list;
     var region_list = this._regionsToRegionList(regions);
+    // Get all the regions on one side of the selected region
     var side = region_list.filter(sidePred)
+    // If there are any, pick the closest one
     if (side.length > 0) {
       var nearest = side.reduce(nearestPred);
       this.selectRegion(nearest);

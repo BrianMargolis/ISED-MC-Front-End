@@ -1,5 +1,6 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { BackendService } from '../backend.service'
+import { Region } from '../region';
 
 @Component({
   selector: 'app-query-labeling',
@@ -10,6 +11,8 @@ export class QueryLabelingComponent implements OnInit {
   @Input() regions;
   @Input() selectedRegion;
   regionLabels = {};
+
+  @Output() onUpdateRegionsForFeedback = new EventEmitter<Region[]>();
 
   constructor(private backendService: BackendService) {
 
@@ -23,7 +26,8 @@ export class QueryLabelingComponent implements OnInit {
   }
 
   submit() {
-    this.backendService.submitQueries(this.regions, this.regionLabels);
-  }
+    var regionsForFeedback = this.backendService.submitQueries(this.regions, this.regionLabels);
 
+    regionsForFeedback.subscribe(data => this.onUpdateRegionsForFeedback.emit(data));
+  }
 }

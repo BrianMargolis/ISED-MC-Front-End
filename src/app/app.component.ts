@@ -17,4 +17,8 @@ export class AppComponent {
     this.selectedRegion = $region;
   }
 
+  onUpdateRegionsForFeedback($regions) {
+    console.log($regions);
+  }
+
 }

@@ -1,6 +1,7 @@
 import { Component, OnInit, EventEmitter, Output, Input } from '@angular/core';
 import { } from 'colormap';
 import * as $ from 'jquery';
+import { Region } from '../region';
 
 @Component({
   selector: 'app-input-audio',
@@ -8,7 +9,47 @@ import * as $ from 'jquery';
   styleUrls: ['./input-audio.component.scss']
 })
 export class InputAudioComponent implements OnInit {
-  @Input() labels;
+  private _labels;
+
+  @Input()
+  set labels(labels: Region[]) {
+    if (!labels) {
+      return;
+    }
+    // Custom setter because I'll need it later almost certainly.
+    this._labels = labels;
+    console.log(labels);
+
+    // Turn on labels
+    // TODO: don't turn them on every time
+    var wavesurferLabels = Object.create(WaveSurfer.Labels);
+    wavesurferLabels.init({
+      wavesurfer: this.ws,
+      container: '.labels'
+    });
+
+    // Remove existing regions
+    this.ws.clearRegions();
+
+    var i = 0
+    labels.forEach(label => {
+      var id = label.id + i;
+      i++;
+      this.ws.addRegion({
+        id: id,
+        start: label.start,
+        end: label.end
+      });
+      this.ws.regions.list[id].update({ "annotation": label.id })
+
+    })
+    console.log(this.ws.regions.list);
+  }
+
+  get labels() {
+    return this._labels;
+  }
+
   // TODO: specify type  
   @Output() onSelectRegion = new EventEmitter<any>();
   @Output() onUpdateRegions = new EventEmitter<any>();

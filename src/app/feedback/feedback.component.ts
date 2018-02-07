@@ -11,7 +11,7 @@ export class FeedbackComponent implements OnInit {
 
   @Input()
   set labels(labels) {
-    console.log(labels);
+    // Custom setter because I'll need it later almost certainly.
     this._labels = labels;
   }
 

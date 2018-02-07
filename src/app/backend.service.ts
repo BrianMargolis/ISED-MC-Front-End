@@ -41,7 +41,7 @@ export class BackendService {
     for (var region_name in this.regionLabels) {
       for (var i = 0; i < mockedLabelsPerRegion; i++) {
         var start = Math.random() * 44;
-        var end = Math.min(44, start + Math.random() * 10);
+        var end = Math.min(44, start + Math.random() * 10 + 10);
         var feedback = new RegionFeedback();
         var region = new Region(this.regionLabels[region_name], start, end, feedback);
         regions.push(region);

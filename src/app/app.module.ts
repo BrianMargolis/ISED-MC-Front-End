@@ -4,11 +4,13 @@ import { NgModule } from '@angular/core';
 import { AppComponent } from './app.component';
 import { InputAudioComponent } from './input-audio/input-audio.component';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
+import { QueryLabelingComponent } from './query-labeling/query-labeling.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    InputAudioComponent
+    InputAudioComponent,
+    QueryLabelingComponent
   ],
   imports: [
     BrowserModule

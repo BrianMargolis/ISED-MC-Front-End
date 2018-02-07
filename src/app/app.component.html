@@ -1,2 +1,2 @@
-<app-input-audio></app-input-audio>
-<app-query-labeling></app-query-labeling>
+<app-input-audio (onUpdateRegions)="onUpdateRegions($event)"></app-input-audio>
+<app-query-labeling [regions]="regions"></app-query-labeling>

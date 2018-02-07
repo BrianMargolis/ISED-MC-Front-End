@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 
 @Component({
   selector: 'app-query-labeling',
@@ -6,8 +6,7 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./query-labeling.component.scss']
 })
 export class QueryLabelingComponent implements OnInit {
-
-  constructor() { }
+  @Input() regions;
 
   ngOnInit() {
   }

@@ -1,4 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
+import { BackendService } from '../backend.service'
 
 @Component({
   selector: 'app-query-labeling',
@@ -10,6 +11,10 @@ export class QueryLabelingComponent implements OnInit {
   @Input() selectedRegion;
   regionLabels = {};
 
+  constructor(private backendService: BackendService) {
+
+  }
+
   ngOnInit() {
   }
 
@@ -18,7 +23,7 @@ export class QueryLabelingComponent implements OnInit {
   }
 
   submit() {
-    console.log(this.regionLabels);
+    this.backendService.submitQueries(this.regionLabels);
   }
 
 }

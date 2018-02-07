@@ -33,14 +33,12 @@ export class InputAudioComponent implements OnInit {
 
     var i = 0
     labels.forEach(label => {
-      var id = label.id + i;
-      i++;
       this.ws.addRegion({
-        id: id,
+        id: label.id,
         start: label.start,
         end: label.end
       });
-      this.ws.regions.list[id].update({ "annotation": label.id })
+      this.ws.regions.list[label.id].update({ "annotation": label.label })
 
     })
     console.log(this.ws.regions.list);

@@ -11,6 +11,7 @@ export class QueryLabelingComponent implements OnInit {
   @Input() regions;
   @Input() selectedRegion;
   regionLabels = {};
+  submitted = false;
 
   @Output() onUpdateRegionsForFeedback = new EventEmitter<Region[]>();
 
@@ -28,6 +29,9 @@ export class QueryLabelingComponent implements OnInit {
   submit() {
     var regionsForFeedback = this.backendService.submitQueries(this.regions, this.regionLabels);
 
-    regionsForFeedback.subscribe(data => this.onUpdateRegionsForFeedback.emit(data));
+    regionsForFeedback.subscribe(data => {
+      this.onUpdateRegionsForFeedback.emit(data);
+      this.submitted = true;
+    });
   }
 }

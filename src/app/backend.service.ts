@@ -7,8 +7,9 @@ export class BackendService {
   regionLabels = null;
   constructor() { }
 
-  submitQueries(regionLabels: {}) {
+  submitQueries(regions: any[], regionLabels: {}) {
     // Just log to console for now 
+    console.log(regions);
     console.log(regionLabels);
     // Save to help mock data later
     this.regionLabels = regionLabels;

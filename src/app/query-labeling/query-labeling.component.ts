@@ -23,7 +23,7 @@ export class QueryLabelingComponent implements OnInit {
   }
 
   submit() {
-    this.backendService.submitQueries(this.regionLabels);
+    this.backendService.submitQueries(this.regions, this.regionLabels);
   }
 
 }

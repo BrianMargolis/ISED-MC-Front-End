@@ -1,6 +1,7 @@
 
 export class RegionFeedback {
-    constructor() {
+    
+    constructor(public correct: boolean, public also: string[]) {
 
     }
 }

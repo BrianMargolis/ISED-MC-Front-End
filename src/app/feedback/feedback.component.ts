@@ -19,10 +19,24 @@ export class FeedbackComponent implements OnInit {
     return this._labels;
   }
 
+  labelIndex = 0;
+
   constructor() { }
 
   ngOnInit() {
 
+  }
+
+  prev() {
+    if (this.labelIndex > 0) {
+      this.labelIndex--;
+    }
+  }
+
+  next() {
+    if (this.labelIndex < this._labels.length - 1) {
+      this.labelIndex++
+    }
   }
 
 }

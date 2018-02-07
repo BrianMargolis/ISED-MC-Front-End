@@ -1,3 +1,17 @@
-<p>
-  {{labels}}
-</p>
+<div class="row" *ngIf="labels && labels.length > 0">
+  <div class="col-3 text-right">
+    <button (click)="prev()">
+      <i class="fa fa-arrow-left" aria-hidden="true"></i>
+    </button>
+  </div>
+  <div class="col-6">
+    <p>Giving feedback on: {{labels[labelIndex].id}}, which was labeled as {{labels[labelIndex].label}}.</p>
+    <p>Start: {{labels[labelIndex].start}}.</p>
+    <p>End: {{labels[labelIndex].end}}.</p>
+  </div>
+  <div class="col-3 text-left">
+    <button (click)="next()">
+      <i class="fa fa-arrow-right" aria-hidden="true"></i>
+    </button>
+  </div>
+</div>

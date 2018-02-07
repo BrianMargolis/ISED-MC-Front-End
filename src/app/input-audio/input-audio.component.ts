@@ -77,7 +77,16 @@ export class InputAudioComponent implements OnInit {
   }
 
   playPause() {
-    this.ws.playPause()
+    if (this.ws.isPlaying()) {
+      this.ws.pause();
+    } else {
+      // if a region is selected, play that
+      if (this.selectedRegion != null) {
+        this.ws.play(this.selectedRegion.start, this.selectedRegion.end);
+      } else {
+        this.ws.play();
+      }
+    }
   }
 
 }

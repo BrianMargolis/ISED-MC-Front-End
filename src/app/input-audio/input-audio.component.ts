@@ -72,8 +72,8 @@ export class InputAudioComponent implements OnInit {
     // to the API
     // So, we use JQuery.
     var region_name = region.id;
-    $("region[data-id='" + region_name + "']").css('backgroundColor', 'rgba(100, 100, 100, .5');
-    $("region[data-id!='" + region_name + "']").css('backgroundColor', 'rgba(100, 100, 100, .2');
+    $("region[data-id='" + region_name + "']").css('backgroundColor', 'rgba(0, 0, 0, .6)');
+    $("region[data-id!='" + region_name + "']").css('backgroundColor', 'rgba(0, 0, 0, .3)');
   }
 
   playPause() {

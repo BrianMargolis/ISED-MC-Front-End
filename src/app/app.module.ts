@@ -2,10 +2,12 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 
 import { AppComponent } from './app.component';
+import { InputAudioComponent } from './input-audio/input-audio.component';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    InputAudioComponent
   ],
   imports: [
     BrowserModule

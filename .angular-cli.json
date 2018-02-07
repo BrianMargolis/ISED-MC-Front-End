@@ -21,7 +21,14 @@
       "styles": [
         "styles.scss"
       ],
-      "scripts": [],
+      "scripts": [
+        "../lib/jquery-2.2.3.min.js",
+        "../lib/wavesurfer.min.js",
+        "../lib/wavesurfer.spectrogram.min.js",
+        "../lib/wavesurfer.regions.js",
+        "../lib/wavesurfer.labels.js",
+        "../lib/wavesurfer.drawer.extended.js"
+      ],
       "environmentSource": "environments/environment.ts",
       "environments": {
         "dev": "environments/environment.ts",

@@ -1,7 +1,9 @@
 <div *ngIf="labelsTabled && labelsTabled.length > 0">
   <div class="row" *ngFor="let labelRow of labelsTabled">
     <div class="col-2" *ngFor="let label of labelRow">
-      {{label}}
+      <button (click)="updateLabel(label)">
+        {{label}}
+      </button>
     </div>
   </div>
 </div>

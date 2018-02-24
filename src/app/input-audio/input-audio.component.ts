@@ -76,6 +76,7 @@ export class InputAudioComponent implements OnInit {
 
   replaceRegions(regions: Region[]) {
     this._ws.clearRegions();
+    this.selectRegion(null);
     regions.forEach(region => {
       this._ws.addRegion({
         "id": region.id,
@@ -99,7 +100,7 @@ export class InputAudioComponent implements OnInit {
 
   // Update the app component about selecting an ID
   selectRegion(region) {
-    this.onSelectRegion.emit(region.id);
+    region ? this.onSelectRegion.emit(region.id) : null;
   }
 
   isPlaying() {

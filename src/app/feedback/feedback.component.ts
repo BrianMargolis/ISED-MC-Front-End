@@ -8,8 +8,11 @@ import { QueryLabelingComponent } from '../query-labeling/query-labeling.compone
   styleUrls: ['./feedback.component.scss']
 })
 export class FeedbackComponent implements OnInit {
-  @Input() labels: string[];
-  get labelsTabled() {
+  private _labels: string[];
+  labelsTabled: string[];
+  @Input() set labels(labels: string[]) {
+    this._labels = labels;
+
     var c = 6;
     var tabled = [];
     var raw = this.labels.slice();
@@ -17,7 +20,10 @@ export class FeedbackComponent implements OnInit {
       tabled.push(raw.splice(0, c))
     }
 
-    return tabled;
+    this.labelsTabled = tabled;
+  }
+  get labels() {
+    return this._labels;
   }
   @Input() regions: Region[];
   @Input() selectedRegionId: string;
@@ -27,11 +33,15 @@ export class FeedbackComponent implements OnInit {
 
   ngOnInit() { }
 
-  updateLabel(id: string, value: string) {
-    var region = this.regions.filter(region => {
-      return region.id == id
-    })[0];
+  updateLabel(value) {
+    console.log(value);
+    var region = this.regions.find(region => {
+      return region.id == this.selectedRegionId
+    });
 
+    if (!region) {
+      return;
+    }
     region.label = value;
     this.onUpdateLabel.emit(region);
   }

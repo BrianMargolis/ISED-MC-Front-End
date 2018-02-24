@@ -67,7 +67,6 @@ export class QueryLabelingComponent implements OnInit {
     })[0];
 
     region.label = value;
-    console.log(region);
     this.onUpdateLabel.emit(region);
   }
 

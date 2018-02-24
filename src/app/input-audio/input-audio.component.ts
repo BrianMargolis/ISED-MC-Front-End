@@ -76,7 +76,6 @@ export class InputAudioComponent implements OnInit {
 
   replaceRegions(regions: Region[]) {
     this._ws.clearRegions();
-    console.log(regions);
     regions.forEach(region => {
       this._ws.addRegion({
         "id": region.id,

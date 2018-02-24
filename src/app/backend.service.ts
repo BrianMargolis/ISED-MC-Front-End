@@ -34,10 +34,12 @@ export class BackendService {
     // Mock 3 randomly placed and sized intervals for each label
     var mocked_regions = [];
     var regionsPerLabel = 3;
+    var trackLength = 10;
+    var maxIntervalLength = 6;
     regions.forEach(region => {
       for (var i = 0; i < regionsPerLabel; i++) {
-        var start = Math.random() * 44;
-        var end = Math.min(44, start + Math.random() * 10 + 10);
+        var start = Math.random() * (trackLength - maxIntervalLength);
+        var end = Math.min(trackLength, start + Math.random() * 3 + 3);
         var mocked_region = new Region(Math.random().toString(36).substr(2, 5), region.label, start, end);
         mocked_regions.push(mocked_region);
       }

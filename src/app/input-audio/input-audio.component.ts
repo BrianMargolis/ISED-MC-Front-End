@@ -48,7 +48,7 @@ export class InputAudioComponent implements OnInit {
       visualization: "spectrogram"
     });
 
-    this._ws.load('https://ia902606.us.archive.org/35/items/shortpoetry_047_librivox/song_cjrg_teasdale_64kb.mp3')
+    this._ws.load('assets/mus/the_liquid.mp3')
 
     var wavesurferLabels = Object.create(WaveSurfer.Labels);
     wavesurferLabels.init({

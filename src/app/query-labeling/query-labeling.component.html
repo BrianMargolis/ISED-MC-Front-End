@@ -6,7 +6,7 @@
       <p>End: {{region.end | number:'1.0-1'}} sec.</p>
     </div>
     <div class="col-6">
-      <input #box type="text" (keyup)="onKey(region.id, box.value)">
+      <input #box type="text" (keyup)="onKey(region.id, box.value)" (focus)="onFocus(region.id)">
     </div>
   </div>
   <br>

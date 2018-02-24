@@ -47,6 +47,7 @@ export class QueryLabelingComponent implements OnInit {
   @Input() selectedRegionId: string;
 
   @Output() onUpdateLabel = new EventEmitter<Region>();
+  @Output() onSelectRegion = new EventEmitter<string>();
   @Output() onSubmit = new EventEmitter<any>();
 
   constructor() {
@@ -58,6 +59,10 @@ export class QueryLabelingComponent implements OnInit {
 
   onKey(id: string, value: string) {
     this.updateLabel(id, value);
+  }
+
+  onFocus(id: string) {
+    this.onSelectRegion.emit(id);
   }
 
   updateLabel(id: string, value: string) {

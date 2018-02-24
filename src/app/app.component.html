@@ -3,7 +3,7 @@
     <br>
     <br>
     <app-query-labeling *ngIf="!hasSubmitted" [regions]="regions" [selectedRegionId]="selectedRegionId" (onUpdateLabel)="onUpdateLabel($event)"
-        (onSubmit)="onSubmit()"></app-query-labeling>
+        (onSelectRegion)="onSelectRegion($event)" (onSubmit)="onSubmit()"></app-query-labeling>
     <br>
     <br>
     <app-feedback *ngIf="hasSubmitted" [regions]="regions" [selectedRegionId]="selectedRegionId"></app-feedback>

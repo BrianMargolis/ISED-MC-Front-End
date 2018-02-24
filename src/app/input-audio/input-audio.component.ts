@@ -48,7 +48,7 @@ export class InputAudioComponent implements OnInit {
       visualization: "spectrogram"
     });
 
-    this._ws.load('assets/mus/the_liquid.mp3')
+    this._ws.load('assets/mus/Events.mp3')
 
     var wavesurferLabels = Object.create(WaveSurfer.Labels);
     wavesurferLabels.init({
@@ -95,7 +95,7 @@ export class InputAudioComponent implements OnInit {
 
   updateLabel(region) {
     this._ws.regions.list[region.id].update({ "annotation": region.label })
-
+    this.updateRegions();
   }
 
   // Update the app component about selecting an ID

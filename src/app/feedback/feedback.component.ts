@@ -28,6 +28,7 @@ export class FeedbackComponent implements OnInit {
   @Input() regions: Region[];
   @Input() selectedRegionId: string;
   @Output() onUpdateLabel = new EventEmitter<Region>();
+  @Output() onSubmit = new EventEmitter<any>();
 
   constructor() { }
 
@@ -46,4 +47,7 @@ export class FeedbackComponent implements OnInit {
     this.onUpdateLabel.emit(region);
   }
 
+  submit() {
+    this.onSubmit.emit(null);
+  }
 }

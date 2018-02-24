@@ -6,5 +6,6 @@
         (onSelectRegion)="onSelectRegion($event)" (onSubmit)="onSubmit()"></app-query-labeling>
     <br>
     <br>
-    <app-feedback *ngIf="hasSubmitted" [labels]="labels" [regions]="regions" [selectedRegionId]="selectedRegionId" (onUpdateLabel)="onUpdateLabel($event)"></app-feedback>
+    <app-feedback *ngIf="hasSubmitted" [labels]="labels" [regions]="regions" [selectedRegionId]="selectedRegionId" (onUpdateLabel)="onUpdateLabel($event)"
+        (onSubmit)="onSubmit()"></app-feedback>
 </div>

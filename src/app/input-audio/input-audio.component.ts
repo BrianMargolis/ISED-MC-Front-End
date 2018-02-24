@@ -8,127 +8,129 @@ import { Region } from '../region';
   styleUrls: ['./input-audio.component.scss']
 })
 export class InputAudioComponent implements OnInit {
-  private _labels;
-
-  @Input()
-  set labels(labels: Region[]) {
-    if (!labels) {
-      return;
-    }
-    // Custom setter because I'll need it later almost certainly.
-    this._labels = labels;
-    console.log(labels);
-
-    // Turn on labels
-    // TODO: don't turn them on every time
-    var wavesurferLabels = Object.create(WaveSurfer.Labels);
-    wavesurferLabels.init({
-      wavesurfer: this.ws,
-      container: '.labels'
-    });
-
-    // Remove existing regions
-    this.ws.clearRegions();
-
-    var i = 0
-    labels.forEach(label => {
-      this.ws.addRegion({
-        id: label.id,
-        start: label.start,
-        end: label.end
-      });
-      this.ws.regions.list[label.id].update({ "annotation": label.label })
-
-    })
-    console.log(this.ws.regions.list);
-  }
-
-  get labels() {
-    return this._labels;
-  }
-
-
-  // TODO: specify type  
-  @Output() onSelectRegionId = new EventEmitter<any>();
-  @Output() onUpdateRegions = new EventEmitter<any>();
-  ws = null;
+  @Output() onSelectRegion = new EventEmitter<string>();
+  @Output() onUpdateRegions = new EventEmitter<Region[]>();
   @Input() selectedRegionId;
+
+  private _ws = null;
+
+  // Annoyingly, the regions come back as an object with many region members, not a list. 
+  // Angular templates can't iterate over an object, so let's turn it into a list now.
+  // Also lets us use some of the psuedo-functional array operations like .map, .filter
+  get regionList() {
+    var regions = this._ws.regions.list;
+    var region_list = [];
+    for (var region_name in regions) {
+      var region = regions[region_name];
+      region_list.push(new Region(region.id, region.annotation, region.start, region.end));
+    }
+    return region_list;
+  }
 
   constructor() { }
 
   ngOnInit() {
-    // Other color options: https://www.npmjs.com/package/colormap
-    // Right now it seems that only jet works. Unclear why.
-    var spectrogramColorMap = colormap({
-      colormap: 'jet',
-      nshades: 256,
-      format: 'rgb',
-      alpha: 1
-    });
-
     var height = 256;
-    this.ws = WaveSurfer.create({
+    this._ws = WaveSurfer.create({
       container: '.input_audio',
       cursorColor: '#FFFFFF',
       // For the spectrogram the height is half the number of fftSamples
       fftSamples: height * 2,
       height: height,
-      colorMap: spectrogramColorMap,
+      // Other color options: https://www.npmjs.com/package/colormap
+      // Right now it seems that only jet works. Unclear why.
+      colorMap: colormap({
+        colormap: 'jet',
+        nshades: height,
+        format: 'rgb',
+        alpha: 1
+      }),
       visualization: "spectrogram"
     });
 
-    this.ws.load('https://ia902606.us.archive.org/35/items/shortpoetry_047_librivox/song_cjrg_teasdale_64kb.mp3')
+    this._ws.load('https://ia902606.us.archive.org/35/items/shortpoetry_047_librivox/song_cjrg_teasdale_64kb.mp3')
 
-    this.ws.enableDragSelection();
+    var wavesurferLabels = Object.create(WaveSurfer.Labels);
+    wavesurferLabels.init({
+      wavesurfer: this._ws,
+      container: '.labels'
+    });
+
+    this._ws.enableDragSelection();
 
     var input_audio = this;
-    this.ws.on('region-updated', function (region) {
+    this._ws.on('region-update-end', function (region) {
+      input_audio.updateRegions();
+    });
+    this._ws.on('region-removed', function (region) {
+      input_audio.updateRegions();
+    });
+    this._ws.on('region-created', function (region) {
       input_audio.updateRegions();
     });
 
-    this.ws.on('region-click', function (region) {
+    this._ws.on('region-click', function (region) {
       input_audio.selectRegion(region);
+    })
+  }
+
+  replaceRegions(regions: Region[]) {
+    this._ws.clearRegions();
+    console.log(regions);
+    regions.forEach(region => {
+      this._ws.addRegion({
+        "id": region.id,
+        "start": region.start,
+        "end": region.end
+      })
+
+      this.updateLabel(region)
     })
   }
 
   // Update the app component about changes to selections on the input audio
   updateRegions() {
-    var regions = this.ws.regions.list;
-    // Annoyingly, the regions come back as an object with many region members, not a list. 
-    // Angular templates can't iterate over an object, so let's turn it into a list now.
-    // Also lets us use some of the psuedo-functional array operations like .map, .filter
-    var region_list = this._regionsToRegionList(regions);
-    this.onUpdateRegions.emit(region_list);
+    this.onUpdateRegions.emit(this.regionList);
   }
 
+  updateLabel(region) {
+    this._ws.regions.list[region.id].update({ "annotation": region.label })
+
+  }
+
+  // Update the app component about selecting an ID
   selectRegion(region) {
-    this.onSelectRegionId.emit(region.id);
+    this.onSelectRegion.emit(region.id);
   }
 
-  // Playback
+  isPlaying() {
+    return this._ws.isPlaying();
+  }
+
   playPause() {
-    if (this.ws.isPlaying()) {
-      this.ws.pause();
+    if (this._ws.isPlaying()) {
+      this._ws.pause();
     } else {
       // if a region is selected, play that
       if (this.selectedRegionId) {
-        var selectedRegion = this.ws.regions.list[this.selectedRegionId];
-        this.ws.play(selectedRegion.start, selectedRegion.end);
+        var selectedRegion = this._ws.regions.list[this.selectedRegionId];
+        this._ws.play(selectedRegion.start, selectedRegion.end);
       } else {
-        this.ws.play();
+        this._ws.play();
       }
     }
   }
 
+  // Chronological region navigation with arrow keys
   nextRegion() {
-    var selectedRegion = this.ws.regions.list[this.selectedRegionId];
-    
+    var selectedRegion = this._ws.regions.list[this.selectedRegionId];
+
     this.nearestRegion(region => region.start > selectedRegion.start, (soFar, current) => current.start < soFar.start ? current : soFar);
   }
 
   prevRegion() {
-    var selectedRegion = this.ws.regions.list[this.selectedRegionId];
-    
+    var selectedRegion = this._ws.regions.list[this.selectedRegionId];
+
     this.nearestRegion(region => region.start < selectedRegion.start, (soFar, current) => current.start > soFar.start ? current : soFar);
   }
 
@@ -137,8 +139,7 @@ export class InputAudioComponent implements OnInit {
       return;
     }
 
-    var regions = this.ws.regions.list;
-    var region_list = this._regionsToRegionList(regions);
+    var region_list = this.regionList;
     // Get all the regions on one side of the selected region
     var side = region_list.filter(sidePred)
     // If there are any, pick the closest one
@@ -146,14 +147,5 @@ export class InputAudioComponent implements OnInit {
       var nearest = side.reduce(nearestPred);
       this.selectRegion(nearest);
     }
-  }
-
-  // Private utilities
-  _regionsToRegionList(regions) {
-    var region_list = [];
-    for (var region_name in regions) {
-      region_list.push(regions[region_name]);
-    }
-    return region_list;
   }
 }

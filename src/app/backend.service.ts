@@ -5,19 +5,15 @@ import { Observable } from 'rxjs/Observable';
 
 @Injectable()
 export class BackendService {
-  regionLabels = null;
   constructor() { }
 
-  submitQueries(regions: any[], regionLabels: {}) {
+  submitQueries(regions: Region[]) {
     return new Observable<Region[]>((observer) => {
       // Just log to console for now 
       console.log(regions);
-      console.log(regionLabels);
-
-      this.regionLabels = regionLabels;
 
       // Eventually, make an HTTP request. For now, mock stuff.
-      observer.next(this._mockLabelsForFeedback())
+      observer.next(this._mockLabelsForFeedback(regions))
       observer.complete()
     })
   }
@@ -29,26 +25,25 @@ export class BackendService {
       console.log(regions);
 
       // Eventually, make an HTTP request. For now, mock stuff.
-      observer.next(this._mockLabelsForFeedback())
+      observer.next(this._mockLabelsForFeedback(regions))
       observer.complete()
     })
   }
 
-  _mockLabelsForFeedback(): Region[] {
-    // Mock 5 randomly placed and sized intervals for each label
-    var regions = [];
-    var mockedLabelsPerRegion = 3;
-    for (var region_name in this.regionLabels) {
-      for (var i = 0; i < mockedLabelsPerRegion; i++) {
+  _mockLabelsForFeedback(regions: Region[]): Region[] {
+    // Mock 3 randomly placed and sized intervals for each label
+    var mocked_regions = [];
+    var regionsPerLabel = 3;
+    regions.forEach(region => {
+      for (var i = 0; i < regionsPerLabel; i++) {
         var start = Math.random() * 44;
         var end = Math.min(44, start + Math.random() * 10 + 10);
-        var feedback = new RegionFeedback(true, []);
-        var region = new Region(Math.random().toString(36).substr(2, 5), this.regionLabels[region_name], start, end, feedback);
-        regions.push(region);
+        var mocked_region = new Region(Math.random().toString(36).substr(2, 5), region.label, start, end);
+        mocked_regions.push(mocked_region);
       }
-    }
+    });
 
-    return regions;
+    return mocked_regions;
   }
 
 }

@@ -1,5 +1,8 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import * as $ from 'jquery';
+import { InputAudioComponent } from './input-audio/input-audio.component';
+import { BackendService } from './backend.service';
+import { Region } from './region';
 
 
 @Component({
@@ -8,9 +11,13 @@ import * as $ from 'jquery';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-  regions = null;
-  selectedRegionId = null;
-  labels = null;
+  @ViewChild(InputAudioComponent)
+  private inputAudioComponent: InputAudioComponent;
+
+  constructor(private backendService: BackendService) { }
+
+  regions: Region[] = null;
+  selectedRegionId: string = null;
 
   onUpdateRegions($regions) {
     this.regions = $regions;
@@ -18,7 +25,7 @@ export class AppComponent {
 
   SELECTED_COLOR = 'rgba(0, 0, 0, .6)'
   UNSELECTED_COLOR = 'rgba(0, 0, 0, .3)'
-  onSelectRegionId($region_id) {
+  onSelectRegion($region_id: string) {
     this.selectedRegionId = $region_id;
 
     // Using JQuery in Angular is nearly always a bad decision.
@@ -30,9 +37,15 @@ export class AppComponent {
     $("region[data-id!='" + $region_id + "']").css('backgroundColor', this.UNSELECTED_COLOR);
   }
 
-  onUpdateLabels($labels) {
-    console.log($labels);
-    this.labels = $labels;
+  onUpdateLabel($region: Region) {
+    this.inputAudioComponent.updateLabel($region);
+  }
+
+  onSubmit() {
+    var response = this.backendService.submitQueries(this.regions);
+    response.subscribe(regions => {
+      this.inputAudioComponent.replaceRegions(regions);
+    })
   }
 
 }

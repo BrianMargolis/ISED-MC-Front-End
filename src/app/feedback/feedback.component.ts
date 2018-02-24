@@ -8,52 +8,21 @@ import { QueryLabelingComponent } from '../query-labeling/query-labeling.compone
   styleUrls: ['./feedback.component.scss']
 })
 export class FeedbackComponent implements OnInit {
-  private _labels;
-
-  @Input()
-  set labels(labels) {
-    // Custom setter because I'll need it later almost certainly.
-    this._labels = labels;
-    setTimeout(() => { // hack to fix an angular issue with change detection: https://blog.angularindepth.com/everything-you-need-to-know-about-the-expressionchangedafterithasbeencheckederror-error-e3fd9ce7dbb4
-      this.selectRegion();
-    });
-  }
-
-  get labels() {
-    return this._labels;
-  }
-
-  @Output() onSelectRegionId = new EventEmitter<any>();
-
-  labelIndex = 0;
+  @Input() regions;
+  @Input() selectedRegionId;
+  @Output() onUpdateLabel = new EventEmitter<Region[]>();
 
   constructor() { }
 
-  ngOnInit() {
-  }
+  ngOnInit() {  }
 
-  prev() {
-    if (this.labelIndex > 0) {
-      this.labelIndex--;
-    }
-    this.selectRegion();
-  }
+  updateLabel(id: string, value: string) {
+    var region = this.regions.filter(region => {
+      return region.id == id
+    })[0];
 
-  next() {
-    if (this.labelIndex < this._labels.length - 1) {
-      this.labelIndex++
-    }
-    this.selectRegion();
-  }
-
-  selectRegion() {
-    if (this.labels && this.labels[this.labelIndex]) {
-      this.onSelectRegionId.emit(this.labels[this.labelIndex].id)
-    }
-  }
-
-  test($event) {
-    console.log($event)
+    region.label = value;
+    this.onUpdateLabel.emit(region);
   }
 
 }

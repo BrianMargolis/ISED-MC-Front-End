@@ -5,9 +5,8 @@
       <p>Start: {{region.start | number:'1.0-1'}} sec.</p>
       <p>End: {{region.end | number:'1.0-1'}} sec.</p>
     </div>
-
     <div class="col-6">
-      <input #box type="text" (keyup)="onKey(box.value, region.id)">
+      <input #box type="text" (keyup)="onKey(region.id, box.value)">
     </div>
   </div>
   <br>

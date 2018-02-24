@@ -1,7 +1,7 @@
 <div class="labels"></div>
 <div class="input_audio"></div>
 <button (click)="playPause()">
-  <i class="fa fa-{{ws.isPlaying() ? 'pause' : 'play'}}" aria-hidden="true"></i>
+  <i class="fa fa-{{isPlaying() ? 'pause' : 'play'}}" aria-hidden="true"></i>
 </button>
 <button (click)="prevRegion()">
   <i class="fa fa-step-backward" aria-hidden="true"></i>

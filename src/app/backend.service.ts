@@ -33,7 +33,7 @@ export class BackendService {
   _mockLabelsForFeedback(regions: Region[]): Region[] {
     // Mock 3 randomly placed and sized intervals for each label
     var mocked_regions = [];
-    var regionsPerLabel = 3;
+    var regionsPerLabel = 1;
     var trackLength = 10;
     var maxIntervalLength = 6;
     regions.forEach(region => {

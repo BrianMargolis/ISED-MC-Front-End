@@ -8,13 +8,24 @@ import { QueryLabelingComponent } from '../query-labeling/query-labeling.compone
   styleUrls: ['./feedback.component.scss']
 })
 export class FeedbackComponent implements OnInit {
-  @Input() regions;
-  @Input() selectedRegionId;
-  @Output() onUpdateLabel = new EventEmitter<Region[]>();
+  @Input() labels: string[];
+  get labelsTabled() {
+    var c = 6;
+    var tabled = [];
+    var raw = this.labels.slice();
+    while (raw.length) {
+      tabled.push(raw.splice(0, c))
+    }
+
+    return tabled;
+  }
+  @Input() regions: Region[];
+  @Input() selectedRegionId: string;
+  @Output() onUpdateLabel = new EventEmitter<Region>();
 
   constructor() { }
 
-  ngOnInit() {  }
+  ngOnInit() { }
 
   updateLabel(id: string, value: string) {
     var region = this.regions.filter(region => {

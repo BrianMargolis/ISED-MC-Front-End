@@ -15,8 +15,8 @@ export class AppComponent {
   private inputAudioComponent: InputAudioComponent;
 
   constructor(private backendService: BackendService) { }
-
-  regions: Region[] = null;
+  regions: Region[] = [];
+  labels: string[] = [];
   selectedRegionId: string = null;
   hasSubmitted = false;
 
@@ -44,6 +44,13 @@ export class AppComponent {
 
   onSubmit() {
     var response = this.backendService.submitQueries(this.regions);
+    for (var region of this.regions) {
+      var label = region.label;
+      if (!this.labels.includes(label)) {
+        this.labels.push(label);
+      }
+    }
+    console.log(this.labels);
     response.subscribe(regions => {
       this.inputAudioComponent.replaceRegions(regions);
     })

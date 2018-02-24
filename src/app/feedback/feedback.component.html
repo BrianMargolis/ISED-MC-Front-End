@@ -1,5 +1,7 @@
-<div class="row" *ngIf="regions && regions.length > 0">
-  <div class="col-12">
-    
+<div *ngIf="labelsTabled && labelsTabled.length > 0">
+  <div class="row" *ngFor="let labelRow of labelsTabled">
+    <div class="col-2" *ngFor="let label of labelRow">
+      {{label}}
+    </div>
   </div>
 </div>

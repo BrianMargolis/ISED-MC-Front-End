@@ -45,7 +45,6 @@ export class QueryLabelingComponent implements OnInit {
   }
 
   @Input() selectedRegionId: string;
-  submitted = false;
 
   @Output() onUpdateLabel = new EventEmitter<Region>();
   @Output() onSubmit = new EventEmitter<any>();

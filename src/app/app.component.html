@@ -2,8 +2,9 @@
     <app-input-audio [regions]="regions" [selectedRegionId]="selectedRegionId" (onUpdateRegions)="onUpdateRegions($event)" (onSelectRegion)="onSelectRegion($event)"></app-input-audio>
     <br>
     <br>
-    <app-query-labeling [regions]="regions" [selectedRegionId]="selectedRegionId" (onUpdateLabel)="onUpdateLabel($event)" (onSubmit)="onSubmit()"></app-query-labeling>
+    <app-query-labeling *ngIf="!hasSubmitted" [regions]="regions" [selectedRegionId]="selectedRegionId" (onUpdateLabel)="onUpdateLabel($event)"
+        (onSubmit)="onSubmit()"></app-query-labeling>
     <br>
     <br>
-    <app-feedback [regions]="regions"  [selectedRegionId]="selectedRegionId" ></app-feedback>
+    <app-feedback *ngIf="hasSubmitted" [regions]="regions" [selectedRegionId]="selectedRegionId"></app-feedback>
 </div>

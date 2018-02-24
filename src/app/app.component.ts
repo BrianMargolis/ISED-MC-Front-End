@@ -18,6 +18,7 @@ export class AppComponent {
 
   regions: Region[] = null;
   selectedRegionId: string = null;
+  hasSubmitted = false;
 
   onUpdateRegions($regions) {
     this.regions = $regions;
@@ -46,6 +47,7 @@ export class AppComponent {
     response.subscribe(regions => {
       this.inputAudioComponent.replaceRegions(regions);
     })
+    this.hasSubmitted = true;
   }
 
 }

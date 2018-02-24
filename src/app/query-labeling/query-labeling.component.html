@@ -1,4 +1,4 @@
-<div *ngIf="!submitted && regions">
+<div *ngIf="regions">
   <div class="row" *ngFor="let region of regions; let i = index">
     <div class="col-6">
       <p [ngStyle]="{'font-weight': region.id == selectedRegionId ? 'bold' : 'normal'}">Region #{{i}} ({{region.id}}):</p>

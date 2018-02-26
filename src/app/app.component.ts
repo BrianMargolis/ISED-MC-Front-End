@@ -1,4 +1,4 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component, ViewChild, ChangeDetectorRef } from '@angular/core';
 import * as $ from 'jquery';
 import { InputAudioComponent } from './input-audio/input-audio.component';
 import { BackendService } from './backend.service';
@@ -14,11 +14,12 @@ export class AppComponent {
   @ViewChild(InputAudioComponent)
   private inputAudioComponent: InputAudioComponent;
 
-  constructor(private backendService: BackendService) { }
+  constructor(private backendService: BackendService, private cdr: ChangeDetectorRef) { }
   regions: Region[] = [];
   labels: string[] = [];
   selectedRegionId: string = null;
   hasSubmitted = false;
+  loading = true;
 
   onUpdateRegions($regions) {
     this.regions = $regions;
@@ -55,6 +56,13 @@ export class AppComponent {
       this.inputAudioComponent.replaceRegions(regions);
     })
     this.hasSubmitted = true;
+  }
+
+  onLoading(loading: boolean) {
+    this.loading = loading;
+    // Because this comes from an async method, change detection doesn't run.
+    // Needs investigating for a better solution, but for right now just manually invoke change detection.
+    this.cdr.detectChanges()
   }
 
 }

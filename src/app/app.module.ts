@@ -7,13 +7,15 @@ import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { QueryLabelingComponent } from './query-labeling/query-labeling.component';
 import { BackendService } from './backend.service';
 import { FeedbackComponent } from './feedback/feedback.component';
+import { LoadingComponent } from './loading/loading.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     InputAudioComponent,
     QueryLabelingComponent,
-    FeedbackComponent
+    FeedbackComponent,
+    LoadingComponent
   ],
   imports: [
     BrowserModule

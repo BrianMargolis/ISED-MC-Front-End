@@ -9,6 +9,7 @@ import { Region } from '../region';
 })
 export class InputAudioComponent implements OnInit {
   @Output() onSelectRegion = new EventEmitter<string>();
+  @Output() onLoading = new EventEmitter<boolean>();
   @Output() onUpdateRegions = new EventEmitter<Region[]>();
   @Input() selectedRegionId;
 
@@ -49,7 +50,6 @@ export class InputAudioComponent implements OnInit {
     });
 
     this._ws.load('assets/mus/Events.mp3')
-
     var wavesurferLabels = Object.create(WaveSurfer.Labels);
     wavesurferLabels.init({
       wavesurfer: this._ws,
@@ -59,6 +59,11 @@ export class InputAudioComponent implements OnInit {
     this._ws.enableDragSelection();
 
     var input_audio = this;
+
+    this._ws.on('ready', function () {
+      input_audio.onLoading.emit(false);
+    })
+
     this._ws.on('region-update-end', function (region) {
       input_audio.updateRegions();
     });

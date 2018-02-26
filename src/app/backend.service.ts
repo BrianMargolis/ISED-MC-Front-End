@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Region } from './region'
 import { InitiationResponse } from './initiation.response'
+import { FeedbackResponse } from './feedback.response'
 import { RegionFeedback } from './region.feedback';
 import { Observable } from 'rxjs/Observable';
 import { environment } from '../environments/environment';
@@ -32,17 +33,17 @@ export class BackendService {
   }
 
 
-  submitFeedback(suggestions: Region[], feedback: Region[], session_id: string): Observable<Region[]> {
-    return new Observable<Region[]>((observer) => {
-     
+  submitFeedback(suggestions: Region[], feedback: Region[], session_id: string): Observable<FeedbackResponse> {
+    return new Observable<FeedbackResponse>((observer) => {
       const form: FormData = new FormData();
       form.append("suggestions", JSON.stringify(suggestions))
       form.append("feedback", JSON.stringify(feedback))
+      form.append("session_id", session_id)
 
-      var endpoint = environment.backendEndpoint + "initiateSession";
+      var endpoint = environment.backendEndpoint + "submitFeedback";
       this.http.post(endpoint, form).subscribe(res => {
-
-        observer.next([])
+        console.log(res)
+        observer.next(new FeedbackResponse(res['suggestions']))
         observer.complete()
       })
     })

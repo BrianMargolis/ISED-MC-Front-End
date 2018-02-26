@@ -17,15 +17,17 @@ export class AppComponent {
   constructor(private backendService: BackendService, private changeDetectorRef: ChangeDetectorRef) { }
   audio: File;
 
+  suggestions: Region[] = [];
   regions: Region[] = [];
   labels: string[] = [];
   selectedRegionId: string = null;
-
+  sessionId: string = null;
   hasSubmitted = false;
   loading = false;
 
   onFileUpload($file) {
     this.audio = $file;
+    // This begins the creation of the wavesurfer, so throw up the loading screen.
     this.loading = true;
   }
 
@@ -36,15 +38,14 @@ export class AppComponent {
     this.changeDetectorRef.detectChanges()
   }
 
-  onSubmit() {
-    var response = this.backendService.initiateSession(this.audio, this.regions);
-    this.onLoading(true);
-    response.subscribe(res => {
-      this.onLoading(false);
-
-      this.inputAudioComponent.replaceRegions(res.regions);
+  onInitiateSession() {
+    this.loading = true;
+    this.backendService.initiateSession(this.audio, this.regions).subscribe(response => {
+      this.sessionId = response.session_id;
+      this.suggestions = response.regions;
+      this.inputAudioComponent.replaceRegions(response.regions);
+      this.loading = false;
     })
-    this.hasSubmitted = true;
 
     for (var region of this.regions) {
       var label = region.label;
@@ -52,7 +53,16 @@ export class AppComponent {
         this.labels.push(label);
       }
     }
-    console.log(this.labels);
+
+    this.hasSubmitted = true;
+  }
+
+  onSubmitFeedback() {
+    this.loading = true;
+    this.backendService.submitFeedback(this.suggestions, this.regions, this.sessionId).subscribe(res => {
+      this.inputAudioComponent.replaceRegions(res.regions);
+      this.loading = false;
+    })
   }
 
   onUpdateRegions($regions) {
@@ -73,6 +83,8 @@ export class AppComponent {
     // concept like model binding into the wavesurfer API without heavy modifications
     // to the API
     // So, we use JQuery.
+    // TODO: assign a class instead. 
+    // This is a better approach because it keeps style info where it belongs, in .scss files.
     $("region[data-id='" + $region_id + "']").css('backgroundColor', SELECTED_COLOR);
     $("region[data-id!='" + $region_id + "']").css('backgroundColor', UNSELECTED_COLOR);
   }

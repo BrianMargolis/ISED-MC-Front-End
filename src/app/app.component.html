@@ -6,9 +6,9 @@
     <br>
     <br>
     <app-query-labeling *ngIf="!hasSubmitted" [regions]="regions" [selectedRegionId]="selectedRegionId" (onUpdateLabel)="onUpdateLabel($event)"
-        (onSelectRegion)="onSelectRegion($event)" (onSubmit)="onSubmit()"></app-query-labeling>
+        (onSelectRegion)="onSelectRegion($event)" (onSubmit)="onInitiateSession()"></app-query-labeling>
     <br>
     <br>
     <app-feedback *ngIf="hasSubmitted" [labels]="labels" [regions]="regions" [selectedRegionId]="selectedRegionId" (onUpdateLabel)="onUpdateLabel($event)"
-        (onSubmit)="onSubmit()"></app-feedback>
+        (onSubmit)="onSubmitFeedback()"></app-feedback>
 </div>

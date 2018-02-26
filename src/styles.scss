@@ -1,3 +1,9 @@
 .wavesurfer-region {
     background-color: rgba(0, 0, 0, .3);
 }
+
+// Make tags smaller and not all caps.
+tag {
+    text-transform: none !important;
+    font-size: 8px !important;
+}

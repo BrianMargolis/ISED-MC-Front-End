@@ -8,6 +8,7 @@ import { QueryLabelingComponent } from './query-labeling/query-labeling.componen
 import { BackendService } from './backend.service';
 import { FeedbackComponent } from './feedback/feedback.component';
 import { LoadingComponent } from './loading/loading.component';
+import { FileUploadComponent } from './file-upload/file-upload.component';
 
 @NgModule({
   declarations: [
@@ -15,7 +16,8 @@ import { LoadingComponent } from './loading/loading.component';
     InputAudioComponent,
     QueryLabelingComponent,
     FeedbackComponent,
-    LoadingComponent
+    LoadingComponent,
+    FileUploadComponent
   ],
   imports: [
     BrowserModule

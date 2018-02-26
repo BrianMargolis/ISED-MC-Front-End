@@ -1,6 +1,8 @@
 <div class="container-fluid">
     <app-loading *ngIf="loading"></app-loading>
-    <app-input-audio [regions]="regions" [selectedRegionId]="selectedRegionId" (onUpdateRegions)="onUpdateRegions($event)" (onSelectRegion)="onSelectRegion($event)" (onLoading)="onLoading($event)"></app-input-audio>
+    <app-file-upload *ngIf="!audio" (onFileUpload)="onFileUpload($event)"></app-file-upload>
+    <app-input-audio *ngIf="audio" [audio]="audio" [regions]="regions" [selectedRegionId]="selectedRegionId" (onUpdateRegions)="onUpdateRegions($event)"
+        (onSelectRegion)="onSelectRegion($event)" (onLoading)="onLoading($event)"></app-input-audio>
     <br>
     <br>
     <app-query-labeling *ngIf="!hasSubmitted" [regions]="regions" [selectedRegionId]="selectedRegionId" (onUpdateLabel)="onUpdateLabel($event)"

@@ -11,7 +11,8 @@ export class InputAudioComponent implements OnInit {
   @Output() onSelectRegion = new EventEmitter<string>();
   @Output() onLoading = new EventEmitter<boolean>();
   @Output() onUpdateRegions = new EventEmitter<Region[]>();
-  @Input() selectedRegionId;
+  @Input() selectedRegionId: string;
+  @Input() audio: File;
 
   private _ws = null;
 
@@ -49,7 +50,7 @@ export class InputAudioComponent implements OnInit {
       visualization: "spectrogram"
     });
 
-    this._ws.load('assets/mus/Events.mp3')
+    this._ws.loadBlob(this.audio)
     var wavesurferLabels = Object.create(WaveSurfer.Labels);
     wavesurferLabels.init({
       wavesurfer: this._ws,

@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Region } from './region'
+import { InitiationResponse } from './initiation.response'
 import { RegionFeedback } from './region.feedback';
 import { Observable } from 'rxjs/Observable';
 import { environment } from '../environments/environment';
@@ -9,23 +10,25 @@ import { environment } from '../environments/environment';
 export class BackendService {
   constructor() { }
 
-  submitQueries(regions: Region[]) {
-    return new Observable<Region[]>((observer) => {
+  initiateSession(audio: File, regions: Region[]): Observable<InitiationResponse> {
+    return new Observable<InitiationResponse>((observer) => {
       // Just log to console for now 
       console.log(regions);
       console.log(environment.backendEndpoint)
 
       // Eventually, make an HTTP request. For now, mock stuff.
-      observer.next(this._mockLabelsForFeedback(regions))
+      var suggestions = this._mockLabelsForFeedback(regions);
+      observer.next(new InitiationResponse(suggestions, "mock_session_id"))
       observer.complete()
     })
   }
 
 
-  submitFeedback(regions: Region[]) {
-    return new Observable((observer) => {
+  submitFeedback(regions: Region[], session_id: string): Observable<Region[]> {
+    return new Observable<Region[]>((observer) => {
       // Just log to console for now 
       console.log(regions);
+      console.log(environment.backendEndpoint)
 
       // Eventually, make an HTTP request. For now, mock stuff.
       observer.next(this._mockLabelsForFeedback(regions))

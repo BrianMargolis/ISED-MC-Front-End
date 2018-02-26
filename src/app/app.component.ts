@@ -15,6 +15,7 @@ export class AppComponent {
   private inputAudioComponent: InputAudioComponent;
 
   constructor(private backendService: BackendService, private changeDetectorRef: ChangeDetectorRef) { }
+  audio: File;
   regions: Region[] = [];
   labels: string[] = [];
   selectedRegionId: string = null;
@@ -51,7 +52,7 @@ export class AppComponent {
   }
 
   onSubmit() {
-    var response = this.backendService.submitQueries(this.regions);
+    var response = this.backendService.initiateSession(this.audio, this.regions);
     for (var region of this.regions) {
       var label = region.label;
       if (!this.labels.includes(label)) {
@@ -59,8 +60,8 @@ export class AppComponent {
       }
     }
     console.log(this.labels);
-    response.subscribe(regions => {
-      this.inputAudioComponent.replaceRegions(regions);
+    response.subscribe(res => {
+      this.inputAudioComponent.replaceRegions(res.regions);
     })
     this.hasSubmitted = true;
   }

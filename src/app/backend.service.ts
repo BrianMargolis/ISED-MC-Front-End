@@ -2,6 +2,8 @@ import { Injectable } from '@angular/core';
 import { Region } from './region'
 import { RegionFeedback } from './region.feedback';
 import { Observable } from 'rxjs/Observable';
+import { environment } from '../environments/environment';
+
 
 @Injectable()
 export class BackendService {
@@ -11,6 +13,7 @@ export class BackendService {
     return new Observable<Region[]>((observer) => {
       // Just log to console for now 
       console.log(regions);
+      console.log(environment.backendEndpoint)
 
       // Eventually, make an HTTP request. For now, mock stuff.
       observer.next(this._mockLabelsForFeedback(regions))

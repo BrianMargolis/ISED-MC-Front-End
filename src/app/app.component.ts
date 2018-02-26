@@ -25,9 +25,9 @@ export class AppComponent {
     this.regions = $regions;
   }
 
-  SELECTED_COLOR = 'rgba(0, 0, 0, .6)'
-  UNSELECTED_COLOR = 'rgba(0, 0, 0, .3)'
   onSelectRegion($region_id: string) {
+    var SELECTED_COLOR = 'rgba(0, 0, 0, .6)'
+    var UNSELECTED_COLOR = 'rgba(0, 0, 0, .3)'
     this.selectedRegionId = $region_id;
 
     // Using JQuery in Angular is nearly always a bad decision.
@@ -35,12 +35,19 @@ export class AppComponent {
     // concept like model binding into the wavesurfer API without heavy modifications
     // to the API
     // So, we use JQuery.
-    $("region[data-id='" + $region_id + "']").css('backgroundColor', this.SELECTED_COLOR);
-    $("region[data-id!='" + $region_id + "']").css('backgroundColor', this.UNSELECTED_COLOR);
+    $("region[data-id='" + $region_id + "']").css('backgroundColor', SELECTED_COLOR);
+    $("region[data-id!='" + $region_id + "']").css('backgroundColor', UNSELECTED_COLOR);
   }
 
   onUpdateLabel($region: Region) {
     this.inputAudioComponent.updateLabel($region);
+  }
+
+  onLoading(loading: boolean) {
+    this.loading = loading;
+    // Because this comes from an async method, change detection doesn't run.
+    // Needs investigating for a better solution, but for right now just manually invoke change detection.
+    this.cdr.detectChanges()
   }
 
   onSubmit() {
@@ -56,13 +63,6 @@ export class AppComponent {
       this.inputAudioComponent.replaceRegions(regions);
     })
     this.hasSubmitted = true;
-  }
-
-  onLoading(loading: boolean) {
-    this.loading = loading;
-    // Because this comes from an async method, change detection doesn't run.
-    // Needs investigating for a better solution, but for right now just manually invoke change detection.
-    this.cdr.detectChanges()
   }
 
 }

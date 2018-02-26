@@ -4,35 +4,47 @@ import { InitiationResponse } from './initiation.response'
 import { RegionFeedback } from './region.feedback';
 import { Observable } from 'rxjs/Observable';
 import { environment } from '../environments/environment';
+import { HttpClient } from '@angular/common/http';
 
 
 @Injectable()
 export class BackendService {
-  constructor() { }
+  constructor(private http: HttpClient) { }
 
   initiateSession(audio: File, regions: Region[]): Observable<InitiationResponse> {
     return new Observable<InitiationResponse>((observer) => {
       // Just log to console for now 
       console.log(regions);
-      console.log(environment.backendEndpoint)
 
-      // Eventually, make an HTTP request. For now, mock stuff.
-      var suggestions = this._mockLabelsForFeedback(regions);
-      observer.next(new InitiationResponse(suggestions, "mock_session_id"))
-      observer.complete()
+      const form: FormData = new FormData();
+      form.append("audio", audio, audio.name)
+      form.append("regions", JSON.stringify(regions))
+
+      var endpoint = environment.backendEndpoint + "initiateSession";
+      this.http.post(endpoint, form).subscribe(res => {
+
+        console.log(res)
+        // Eventually, make an HTTP request. For now, mock stuff.
+        observer.next(new InitiationResponse(res['suggestions'], res['session_id']))
+        observer.complete()
+      })
     })
   }
 
 
-  submitFeedback(regions: Region[], session_id: string): Observable<Region[]> {
+  submitFeedback(suggestions: Region[], feedback: Region[], session_id: string): Observable<Region[]> {
     return new Observable<Region[]>((observer) => {
-      // Just log to console for now 
-      console.log(regions);
-      console.log(environment.backendEndpoint)
+     
+      const form: FormData = new FormData();
+      form.append("suggestions", JSON.stringify(suggestions))
+      form.append("feedback", JSON.stringify(feedback))
 
-      // Eventually, make an HTTP request. For now, mock stuff.
-      observer.next(this._mockLabelsForFeedback(regions))
-      observer.complete()
+      var endpoint = environment.backendEndpoint + "initiateSession";
+      this.http.post(endpoint, form).subscribe(res => {
+
+        observer.next([])
+        observer.complete()
+      })
     })
   }
 
@@ -53,5 +65,4 @@ export class BackendService {
 
     return mocked_regions;
   }
-
 }

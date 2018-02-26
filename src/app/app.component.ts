@@ -38,6 +38,14 @@ export class AppComponent {
 
   onSubmit() {
     var response = this.backendService.initiateSession(this.audio, this.regions);
+    this.onLoading(true);
+    response.subscribe(res => {
+      this.onLoading(false);
+
+      this.inputAudioComponent.replaceRegions(res.regions);
+    })
+    this.hasSubmitted = true;
+
     for (var region of this.regions) {
       var label = region.label;
       if (!this.labels.includes(label)) {
@@ -45,10 +53,6 @@ export class AppComponent {
       }
     }
     console.log(this.labels);
-    response.subscribe(res => {
-      this.inputAudioComponent.replaceRegions(res.regions);
-    })
-    this.hasSubmitted = true;
   }
 
   onUpdateRegions($regions) {

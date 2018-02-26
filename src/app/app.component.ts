@@ -14,7 +14,7 @@ export class AppComponent {
   @ViewChild(InputAudioComponent)
   private inputAudioComponent: InputAudioComponent;
 
-  constructor(private backendService: BackendService, private cdr: ChangeDetectorRef) { }
+  constructor(private backendService: BackendService, private changeDetectorRef: ChangeDetectorRef) { }
   regions: Region[] = [];
   labels: string[] = [];
   selectedRegionId: string = null;
@@ -47,7 +47,7 @@ export class AppComponent {
     this.loading = loading;
     // Because this comes from an async method, change detection doesn't run.
     // Needs investigating for a better solution, but for right now just manually invoke change detection.
-    this.cdr.detectChanges()
+    this.changeDetectorRef.detectChanges()
   }
 
   onSubmit() {

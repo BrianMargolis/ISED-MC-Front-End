@@ -27,6 +27,8 @@ export class FeedbackComponent implements OnInit {
   }
   @Input() regions: Region[];
   @Input() selectedRegionId: string;
+  @Input() showHelp: boolean;
+  
   @Output() onUpdateLabel = new EventEmitter<Region>();
   @Output() onSubmit = new EventEmitter<any>();
 

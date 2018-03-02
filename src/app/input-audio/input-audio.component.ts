@@ -13,6 +13,7 @@ export class InputAudioComponent implements OnInit {
   @Output() onUpdateRegions = new EventEmitter<Region[]>();
   @Input() selectedRegionId: string;
   @Input() audio: File;
+  @Input() showHelp: boolean;
 
   private _ws = null;
 

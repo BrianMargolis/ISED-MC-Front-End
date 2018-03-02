@@ -12,12 +12,12 @@
                 (onSelectRegion)="onSelectRegion($event)" (onLoading)="onLoading($event)"></app-input-audio>
             <br>
             <br>
-            <app-query-labeling *ngIf="audio && !hasSubmitted" [regions]="regions" [selectedRegionId]="selectedRegionId" (onUpdateLabel)="onUpdateLabel($event)"
-                (onSelectRegion)="onSelectRegion($event)" (onSubmit)="onInitiateSession()"></app-query-labeling>
+            <app-query-labeling *ngIf="audio && !hasSubmitted" [regions]="regions" [selectedRegionId]="selectedRegionId" [showHelp]="showHelp"
+                (onUpdateLabel)="onUpdateLabel($event)" (onSelectRegion)="onSelectRegion($event)" (onSubmit)="onInitiateSession()"></app-query-labeling>
             <br>
             <br>
-            <app-feedback *ngIf="hasSubmitted" [labels]="labels" [regions]="regions" [selectedRegionId]="selectedRegionId" (onUpdateLabel)="onUpdateLabel($event)"
-                (onSubmit)="onSubmitFeedback()"></app-feedback>
+            <app-feedback *ngIf="hasSubmitted" [labels]="labels" [regions]="regions" [selectedRegionId]="selectedRegionId" [showHelp]="showHelp"
+                (onUpdateLabel)="onUpdateLabel($event)" (onSubmit)="onSubmitFeedback()"></app-feedback>
         </div>
     </div>
 </div>

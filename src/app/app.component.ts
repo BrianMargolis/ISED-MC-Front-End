@@ -24,6 +24,7 @@ export class AppComponent {
   sessionId: string = null;
   hasSubmitted = false;
   loading = false;
+  showHelp = true;
 
   onFileUpload($file) {
     this.audio = $file;
@@ -99,6 +100,10 @@ export class AppComponent {
     $("region").addClass("old");
   }
 
+  toggleHelp() {
+    this.showHelp = !this.showHelp;
+  }
+
   handleKey($key) {
     if ($key.path[0].tagName != "INPUT") { // ignore stuff that's happening in text boxes
       var key = $key.key;
@@ -122,6 +127,8 @@ export class AppComponent {
         case "Escape":
           this.onSelectRegion(null);
           break;
+        case "?":
+          this.toggleHelp();
       }
     }
   }

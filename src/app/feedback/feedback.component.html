@@ -1,4 +1,18 @@
 <div *ngIf="labelsTabled && labelsTabled.length > 0">
+  <blockquote class="blockquote bq-elegant">
+    <p class="bq-title">
+      <i class="fa fa-question-circle" aria-hidden="true"></i>
+      Give me feedback on my suggestions.
+    </p>
+    <p>
+      You can change the labels with the buttons below, or adjust the boundaries/location by dragging above. You can also delete
+      a region by clicking the
+      <i class="fa fa-times-circle"></i> in the top right corner.
+    </p>
+  </blockquote>
+  <h5></h5>
+  <p>
+  </p>
   <div class="row relabel" *ngFor="let labelRow of labelsTabled">
     <div class="col-12 text-center">
       <span *ngFor="let label of labelRow">

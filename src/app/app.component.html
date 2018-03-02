@@ -15,7 +15,7 @@
                 (onSelectRegion)="onSelectRegion($event)" (onLoading)="onLoading($event)"></app-input-audio>
             <br>
             <br>
-            <app-query-labeling *ngIf="!hasSubmitted" [regions]="regions" [selectedRegionId]="selectedRegionId" (onUpdateLabel)="onUpdateLabel($event)"
+            <app-query-labeling *ngIf="audio && !hasSubmitted" [regions]="regions" [selectedRegionId]="selectedRegionId" (onUpdateLabel)="onUpdateLabel($event)"
                 (onSelectRegion)="onSelectRegion($event)" (onSubmit)="onInitiateSession()"></app-query-labeling>
             <br>
             <br>

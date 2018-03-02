@@ -19,7 +19,7 @@ export class InputAudioComponent implements OnInit {
   // Annoyingly, the regions come back as an object with many region members, not a list. 
   // Angular templates can't iterate over an object, so let's turn it into a list now.
   // Also lets us use some of the psuedo-functional array operations like .map, .filter
-  get regionList() {
+  get regionList(): Region[] {
     var regions = this._ws.regions.list;
     var region_list = [];
     for (var region_name in regions) {
@@ -108,6 +108,11 @@ export class InputAudioComponent implements OnInit {
   // Update the app component about selecting an ID
   selectRegion(region) {
     region ? this.onSelectRegion.emit(region.id) : null;
+  }
+
+  // Allow the parent component to manipulate regions
+  deleteRegion(regionId: string) {
+    this._ws.regions.list[regionId].remove();
   }
 
   isPlaying() {

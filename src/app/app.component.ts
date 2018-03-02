@@ -43,7 +43,7 @@ export class AppComponent {
     this.backendService.initiateSession(this.audio, this.regions).subscribe(response => {
       this.sessionId = response.session_id;
       this.suggestions = response.regions;
-      this.greyOut();
+      this.markAllOld();
       this.inputAudioComponent.addRegions(response.regions);
       this.suggestions = this.regions.slice();
       this.loading = false;
@@ -62,7 +62,7 @@ export class AppComponent {
   onSubmitFeedback() {
     this.loading = true;
     this.backendService.submitFeedback(this.suggestions, this.regions, this.sessionId).subscribe(response => {
-      this.greyOut();
+      this.markAllOld();
       this.inputAudioComponent.addRegions(response.regions);
       this.suggestions = this.regions.slice();
       this.loading = false;
@@ -71,7 +71,6 @@ export class AppComponent {
 
   onUpdateRegions($regions) {
     this.regions = $regions;
-    console.log(1);
   }
 
   onUpdateLabel($region: Region) {
@@ -88,13 +87,42 @@ export class AppComponent {
     // concept like model binding into the wavesurfer API without heavy modifications
     // to the API
     // So, we use JQuery.
-    // TODO: assign a class instead. 
-    // This is a better approach because it keeps style info where it belongs, in .scss files.
-    $("region[data-id='" + $region_id + "']").addClass("selected");
-    $("region[data-id!='" + $region_id + "']").removeClass("selected");
+    if ($region_id) {
+      $("region[data-id='" + $region_id + "']").addClass("selected");
+      $("region[data-id!='" + $region_id + "']").removeClass("selected");
+    } else {
+      $("region").removeClass("selected");
+    }
   }
 
-  greyOut() {
+  markAllOld() {
     $("region").addClass("old");
+  }
+
+  handleKey($key) {
+    if ($key.path[0].tagName != "INPUT") { // ignore stuff that's happening in text boxes
+      var key = $key.key;
+      switch (key) {
+        case "Delete":
+        case "Backspace":
+          if (this.selectedRegionId) {
+            this.inputAudioComponent.deleteRegion(this.selectedRegionId);
+            this.selectedRegionId == null;
+          }
+          break;
+        case " ":
+          this.inputAudioComponent.playPause();
+          break;
+        case "ArrowLeft":
+          this.inputAudioComponent.prevRegion();
+          break;
+        case "ArrowRight":
+          this.inputAudioComponent.nextRegion();
+          break;
+        case "Escape":
+          this.onSelectRegion(null);
+          break;
+      }
+    }
   }
 }

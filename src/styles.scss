@@ -13,5 +13,9 @@
 // Make tags smaller and not all caps.
 tag {
     text-transform: none !important;
-    font-size: 8px !important;
+    // font-size: 8px !important;
+}
+
+.ruler {
+    display: none;
 }

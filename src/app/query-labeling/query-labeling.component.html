@@ -1,4 +1,4 @@
-<div *ngIf="regions">
+<div *ngIf="regions && regions.length > 0">
   <div class="row" *ngFor="let region of regions; let i = index">
     <div class="col-6">
       <p [ngStyle]="{'font-weight': region.id == selectedRegionId ? 'bold' : 'normal'}">Region #{{i}} ({{region.id}}):</p>
@@ -6,9 +6,11 @@
       <p>End: {{region.end | number:'1.0-1'}} sec.</p>
     </div>
     <div class="col-6">
-      <input #box type="text" (keyup)="onKey(region.id, box.value)" (focus)="onFocus(region.id)">
+      <div class="md-form">
+        <input #box type="text" (keyup)="onKey(region.id, box.value)" (focus)="onFocus(region.id)">
+      </div>
     </div>
   </div>
   <br>
-  <button *ngIf="regions.length > 0" (click)="submit()">Submit</button>
+  <button (click)="submit()" class="btn btn-elegant">Submit</button>
 </div>

@@ -43,6 +43,7 @@ export class AppComponent {
     this.backendService.initiateSession(this.audio, this.regions).subscribe(response => {
       this.sessionId = response.session_id;
       this.suggestions = response.regions;
+      this.greyOut();
       this.inputAudioComponent.addRegions(response.regions);
       this.suggestions = this.regions.slice();
       this.loading = false;
@@ -60,8 +61,9 @@ export class AppComponent {
 
   onSubmitFeedback() {
     this.loading = true;
-    this.backendService.submitFeedback(this.suggestions, this.regions, this.sessionId).subscribe(res => {
-      this.inputAudioComponent.addRegions(res.regions);
+    this.backendService.submitFeedback(this.suggestions, this.regions, this.sessionId).subscribe(response => {
+      this.greyOut();
+      this.inputAudioComponent.addRegions(response.regions);
       this.suggestions = this.regions.slice();
       this.loading = false;
     })
@@ -88,8 +90,11 @@ export class AppComponent {
     // So, we use JQuery.
     // TODO: assign a class instead. 
     // This is a better approach because it keeps style info where it belongs, in .scss files.
-    $("region[data-id='" + $region_id + "']").css('backgroundColor', SELECTED_COLOR);
-    $("region[data-id!='" + $region_id + "']").css('backgroundColor', UNSELECTED_COLOR);
+    $("region[data-id='" + $region_id + "']").addClass("selected");
+    $("region[data-id!='" + $region_id + "']").removeClass("selected");
   }
 
+  greyOut() {
+    $("region").addClass("old");
+  }
 }

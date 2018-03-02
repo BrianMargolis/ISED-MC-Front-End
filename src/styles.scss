@@ -2,6 +2,14 @@
     background-color: rgba(0, 0, 0, .3);
 }
 
+.wavesurfer-region.old {
+    background-color: rgba(0, 0, 0, .1);
+}
+
+.wavesurfer-region.selected {
+    background-color: rgba(0, 0, 0, .6);
+} 
+
 // Make tags smaller and not all caps.
 tag {
     text-transform: none !important;

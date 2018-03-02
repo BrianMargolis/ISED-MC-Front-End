@@ -23,10 +23,12 @@ export class BackendService {
 
       var endpoint = environment.backendEndpoint + "initiateSession";
       this.http.post(endpoint, form).subscribe(res => {
-
         console.log(res)
-        // Eventually, make an HTTP request. For now, mock stuff.
-        observer.next(new InitiationResponse(res['suggestions'], res['session_id']))
+        var suggestions: Region[] = res['suggestions'];
+        suggestions = suggestions.map(suggestion => {
+          return new Region(suggestion['id'], suggestion['label'], suggestion['start'], suggestion['end'])
+        })
+        observer.next(new InitiationResponse(suggestions, res['session_id']))
         observer.complete()
       })
     })
@@ -42,8 +44,11 @@ export class BackendService {
 
       var endpoint = environment.backendEndpoint + "submitFeedback";
       this.http.post(endpoint, form).subscribe(res => {
-        console.log(res)
-        observer.next(new FeedbackResponse(res['suggestions']))
+        var suggestions: Region[] = res['suggestions'];
+        suggestions = suggestions.map(suggestion => {
+          return new Region(suggestion['id'], suggestion['label'], suggestion['start'], suggestion['end'])
+        })
+        observer.next(new FeedbackResponse(suggestions))
         observer.complete()
       })
     })

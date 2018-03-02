@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import { Region } from './region'
 import { InitiationResponse } from './initiation.response'
 import { FeedbackResponse } from './feedback.response'
-import { RegionFeedback } from './region.feedback';
 import { Observable } from 'rxjs/Observable';
 import { environment } from '../environments/environment';
 import { HttpClient } from '@angular/common/http';

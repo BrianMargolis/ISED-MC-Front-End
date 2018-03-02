@@ -1,5 +1,3 @@
-import { RegionFeedback } from './region.feedback'
-
 export class Region {
     readonly orig_label;
     readonly orig_start;

@@ -1,10 +1,16 @@
 <div *ngIf="labelsTabled && labelsTabled.length > 0">
-  <div class="row" *ngFor="let labelRow of labelsTabled">
-    <div class="col-2" *ngFor="let label of labelRow">
-      <button (click)="updateLabel(label)">
-        {{label}}
-      </button>
+  <div class="row relabel" *ngFor="let labelRow of labelsTabled">
+    <div class="col-12 text-center">
+      <span *ngFor="let label of labelRow">
+        <button (click)="updateLabel(label)" class="btn btn-elegant">
+          {{label}}
+        </button>
+      </span>
+    </div>
+  </div>
+  <div class="row submit">
+    <div class="col-12 text-center">
+      <button (click)="submit()" class="btn btn-elegant">Submit</button>
     </div>
   </div>
 </div>
-<button (click)="submit()">Submit</button>

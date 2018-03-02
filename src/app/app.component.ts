@@ -43,7 +43,8 @@ export class AppComponent {
     this.backendService.initiateSession(this.audio, this.regions).subscribe(response => {
       this.sessionId = response.session_id;
       this.suggestions = response.regions;
-      this.inputAudioComponent.replaceRegions(response.regions);
+      this.inputAudioComponent.addRegions(response.regions);
+      this.suggestions = this.regions.slice();
       this.loading = false;
     })
 
@@ -60,13 +61,15 @@ export class AppComponent {
   onSubmitFeedback() {
     this.loading = true;
     this.backendService.submitFeedback(this.suggestions, this.regions, this.sessionId).subscribe(res => {
-      this.inputAudioComponent.replaceRegions(res.regions);
+      this.inputAudioComponent.addRegions(res.regions);
+      this.suggestions = this.regions.slice();
       this.loading = false;
     })
   }
 
   onUpdateRegions($regions) {
     this.regions = $regions;
+    console.log(1);
   }
 
   onUpdateLabel($region: Region) {

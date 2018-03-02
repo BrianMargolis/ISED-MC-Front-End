@@ -80,8 +80,8 @@ export class InputAudioComponent implements OnInit {
     })
   }
 
-  replaceRegions(regions: Region[]) {
-    this._ws.clearRegions();
+  addRegions(regions: Region[]) {
+    // this._ws.clearRegions();
     this.selectRegion(null);
     regions.forEach(region => {
       this._ws.addRegion({

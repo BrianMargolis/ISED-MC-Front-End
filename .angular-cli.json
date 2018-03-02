@@ -19,12 +19,15 @@
       "testTsconfig": "tsconfig.spec.json",
       "prefix": "app",
       "styles": [
-        "../node_modules/bootstrap/dist/css/bootstrap.min.css",
+        "../node_modules/mdbootstrap/css/bootstrap.min.css",
+        "../node_modules/mdbootstrap/css/mdb.min.css",
         "styles.scss",
         "../node_modules/font-awesome/css/font-awesome.css"
       ],
       "scripts": [
         "../node_modules/jquery/dist/jquery.min.js",
+        "../node_modules/mdbootstrap/js/bootstrap.min.js",
+        "../node_modules/mdbootstrap/js/mdb.min.js",
         "../lib/wavesurfer.min.js",
         "../lib/wavesurfer.spectrogram.min.js",
         "../lib/wavesurfer.regions.js",

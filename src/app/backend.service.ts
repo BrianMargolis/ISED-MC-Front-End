@@ -9,9 +9,10 @@ import { HttpClient } from '@angular/common/http';
 
 @Injectable()
 export class BackendService {
+  private ATTEMPT_LIMIT = 2;
   constructor(private http: HttpClient) { }
 
-  initiateSession(audio: File, regions: Region[]): Observable<InitiationResponse> {
+  initiateSession(audio: File, regions: Region[], n_try = 0): Observable<InitiationResponse> {
     return new Observable<InitiationResponse>((observer) => {
       // Just log to console for now 
       console.log(regions);
@@ -29,12 +30,21 @@ export class BackendService {
         })
         observer.next(new InitiationResponse(suggestions, res['session_id']))
         observer.complete()
-      })
+      },
+        error => {
+          console.log("Connection to backend failed when trying to initiate session.");
+          console.log(error);
+          if (n_try < this.ATTEMPT_LIMIT) {
+            n_try += 1;
+            console.log("Retrying after failing " + n_try + " times.");
+            this.initiateSession(audio, regions, n_try);
+          }
+        })
     })
   }
 
 
-  submitFeedback(suggestions: Region[], feedback: Region[], session_id: string): Observable<FeedbackResponse> {
+  submitFeedback(suggestions: Region[], feedback: Region[], session_id: string, n_try = 0): Observable<FeedbackResponse> {
     return new Observable<FeedbackResponse>((observer) => {
       const form: FormData = new FormData();
       form.append("suggestions", JSON.stringify(suggestions))
@@ -49,9 +59,20 @@ export class BackendService {
         })
         observer.next(new FeedbackResponse(suggestions))
         observer.complete()
-      })
+      },
+        error => {
+          console.log("Connection to backend failed when trying to submit feedback.");
+          console.log(error);
+          if (n_try < this.ATTEMPT_LIMIT) {
+            n_try += 1;
+            console.log("Retrying after failing " + n_try + " times.");
+            this.submitFeedback(suggestions, feedback, session_id, n_try);
+          }
+        })
     })
   }
+
+
 
   _mockLabelsForFeedback(regions: Region[]): Region[] {
     // Mock 3 randomly placed and sized intervals for each label

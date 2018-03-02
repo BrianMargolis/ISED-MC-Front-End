@@ -1,13 +1,14 @@
 import { RegionFeedback } from './region.feedback'
 
 export class Region {
-    private _orig_label;
-    get orig_label() {
-        return this._orig_label;
-    }
+    readonly orig_label;
+    readonly orig_start;
+    readonly orig_end;
 
     constructor(public id: string, public label: string, public start: number, public end: number) {
-        this._orig_label = label;
+        this.orig_label = label;
+        this.orig_start = start;
+        this.orig_end = end;
     }
-    
+
 }

@@ -48,6 +48,8 @@ export class InputAudioComponent implements OnInit {
         format: 'rgb',
         alpha: 1
       }),
+      scrollParent: true,
+      normalize: true,
       visualization: "spectrogram"
     });
 
@@ -108,12 +110,22 @@ export class InputAudioComponent implements OnInit {
 
   // Update the app component about selecting an ID
   selectRegion(region) {
-    region ? this.onSelectRegion.emit(region.id) : null;
+    if (!region) {
+      return;
+    }
+    this._ws.seekTo(region.start / this._ws.getDuration());
+    this.onSelectRegion.emit(region.id);
   }
 
   // Allow the parent component to manipulate regions
   deleteRegion(regionId: string) {
+    this.nextRegion();
     this._ws.regions.list[regionId].remove();
+  }
+
+  resizeWavesurfer() {
+    this._ws.toggleScroll();
+    this._ws.toggleScroll();
   }
 
   isPlaying() {

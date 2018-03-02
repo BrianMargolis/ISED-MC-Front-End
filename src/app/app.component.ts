@@ -132,4 +132,12 @@ export class AppComponent {
       }
     }
   }
+
+  private _resize;
+  onResize($event) {
+    if (this.inputAudioComponent) {
+      clearTimeout(this._resize);
+      this._resize = setTimeout(this.inputAudioComponent.resizeWavesurfer, 100)
+    }
+  }
 }

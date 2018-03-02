@@ -54,7 +54,8 @@ export class InputAudioComponent implements OnInit {
     var wavesurferLabels = Object.create(WaveSurfer.Labels);
     wavesurferLabels.init({
       wavesurfer: this._ws,
-      container: '.labels'
+      container: '.labels',
+      maxRows: 3
     });
 
     this._ws.enableDragSelection();

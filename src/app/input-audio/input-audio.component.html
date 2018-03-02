@@ -1,11 +1,11 @@
 <div class="labels"></div>
 <div class="input_audio"></div>
-<button (click)="playPause()">
+<button (click)="playPause()" class="btn btn-elegant">
   <i class="fa fa-{{isPlaying() ? 'pause' : 'play'}}" aria-hidden="true"></i>
 </button>
-<button (click)="prevRegion()">
+<button (click)="prevRegion()" class="btn btn-elegant" [disabled]="!selectedRegionId">
   <i class="fa fa-step-backward" aria-hidden="true"></i>
 </button>
-<button (click)="nextRegion()">
+<button (click)="nextRegion()" class="btn btn-elegant" [disabled]="!selectedRegionId">
   <i class="fa fa-step-forward" aria-hidden="true"></i>
 </button>

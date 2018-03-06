@@ -4,4 +4,17 @@
         <label for="input-file-id" class="btn btn-elegant">Choose Audio</label>
         <button type="button" class="btn btn-elegant" [disabled]="!hasFile" (click)="upload()">Upload</button>
     </div>
+    <blockquote class="blockquote bq-elegant" *ngIf="showHelp">
+        <p class="bq-title">
+            <i class="fa fa-question-circle" aria-hidden="true"></i>
+            Pick a visualization.
+        </p>
+        <p>
+            Spectrograms take longer to load, so if you have a longer audio file (> 5 minutes), use the waveform or otherwise be prepared
+            to wait for a little while.
+        </p>
+    </blockquote>
+    <div class="col-12 text-center">
+        <button type="button" class="btn btn-elegant" (click)="toggleVisualization()">{{visualization}}</button>
+    </div>
 </div>

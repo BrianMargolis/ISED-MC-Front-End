@@ -14,6 +14,7 @@ export class InputAudioComponent implements OnInit {
   @Input() selectedRegionId: string;
   @Input() audio: File;
   @Input() showHelp: boolean;
+  @Input() visualization: string;
 
   private _ws = null;
 
@@ -34,6 +35,7 @@ export class InputAudioComponent implements OnInit {
 
   ngOnInit() {
     var height = 256;
+
     this._ws = WaveSurfer.create({
       container: '.input_audio',
       cursorColor: '#FFFFFF',
@@ -50,7 +52,7 @@ export class InputAudioComponent implements OnInit {
       }),
       scrollParent: true,
       normalize: true,
-      visualization: "spectrogram"
+      visualization: this.visualization
     });
 
     this._ws.loadBlob(this.audio)

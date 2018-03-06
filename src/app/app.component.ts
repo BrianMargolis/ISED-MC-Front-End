@@ -25,6 +25,7 @@ export class AppComponent {
   hasSubmitted = false;
   loading = false;
   showHelp = true;
+  visualization: string;
 
   onFileUpload($file) {
     this.audio = $file;
@@ -139,5 +140,9 @@ export class AppComponent {
       clearTimeout(this._resize);
       this._resize = setTimeout(this.inputAudioComponent.resizeWavesurfer, 100)
     }
+  }
+
+  onChangeVisualization($event) {
+    this.visualization = $event;
   }
 }

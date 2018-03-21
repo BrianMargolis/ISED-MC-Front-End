@@ -48,6 +48,7 @@ export class AppComponent {
       this.suggestions = response.regions;
       this.markAllOld();
       this.inputAudioComponent.addRegions(response.regions);
+      this.markAsNew(response.regions);
       this.suggestions = this.regions.slice();
       this.loading = false;
     })
@@ -67,6 +68,7 @@ export class AppComponent {
     this.backendService.submitFeedback(this.suggestions, this.regions, this.sessionId).subscribe(response => {
       this.markAllOld();
       this.inputAudioComponent.addRegions(response.regions);
+      this.markAsNew(response.regions)
       this.suggestions = this.regions.slice();
       this.loading = false;
     })
@@ -99,7 +101,13 @@ export class AppComponent {
   }
 
   markAllOld() {
-    $("region").addClass("old");
+    $("region").removeClass("new");
+  }
+
+  markAsNew(regions: Region[]) {
+    regions.forEach(region => {
+      $("region[data-id='" + region.id + "']").addClass("new");
+    });
   }
 
   toggleHelp() {
@@ -118,6 +126,7 @@ export class AppComponent {
           }
           break;
         case " ":
+          console.log("playpausing")  
           this.inputAudioComponent.playPause();
           break;
         case "ArrowLeft":
@@ -131,7 +140,16 @@ export class AppComponent {
           break;
         case "?":
           this.toggleHelp();
+          break;
+        case "Enter":
+          this.lockSelectedRegion();
       }
+    }
+  }
+
+  lockSelectedRegion() {
+    if (this.selectedRegionId) {
+      $("region[data-id='" + this.selectedRegionId + "']").removeClass("new");
     }
   }
 

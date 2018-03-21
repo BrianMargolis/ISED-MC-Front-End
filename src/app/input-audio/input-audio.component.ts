@@ -18,8 +18,25 @@ export class InputAudioComponent implements OnInit {
   @Input() visualization: string;
   @Input() colors: string[];
   @Input() hasInitiatedSession: boolean;
+  duration: string;
+
+  get position(): string {
+    if (!this._ws) {
+      return ''
+    }
+
+    var total_seconds = this._ws.getCurrentTime();
+    return this.prettyPrintTime(total_seconds);
+  }
+
 
   private _ws = null;
+
+  private prettyPrintTime(total_seconds: any) {
+    var seconds = Math.round(total_seconds % 60)
+    var minutes = Math.round((total_seconds - seconds) / 60);
+    return "" + minutes + ":" + seconds;
+  }
 
   // Annoyingly, the regions come back as an object with many region members, not a list. 
   // Angular templates can't iterate over an object, so let's turn it into a list now.
@@ -82,7 +99,9 @@ export class InputAudioComponent implements OnInit {
 
     var input_audio = this;
 
+
     this._ws.on('ready', function () {
+      input_audio.duration = input_audio.prettyPrintTime(input_audio._ws.getDuration());
       input_audio.onLoading.emit(false);
     })
 

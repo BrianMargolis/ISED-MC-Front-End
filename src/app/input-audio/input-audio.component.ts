@@ -125,9 +125,16 @@ export class InputAudioComponent implements OnInit {
     this._ws.regions.list[regionId].remove();
   }
 
+  private _resize
   resizeWavesurfer() {
-    this._ws.toggleScroll();
-    this._ws.toggleScroll();
+    clearTimeout(this._resize);
+    const component = this;
+    // Resize at most every quarter of a second because
+    this._resize = setTimeout(function () {
+      // turn scroll off and then back on again, causing wavesurfer to adjust for width changes
+      component._ws.toggleScroll();
+      component._ws.toggleScroll();
+    }, 250)
   }
 
   isPlaying() {

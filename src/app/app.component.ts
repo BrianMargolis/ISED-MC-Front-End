@@ -126,7 +126,7 @@ export class AppComponent {
           }
           break;
         case " ":
-          console.log("playpausing")  
+          console.log("playpausing")
           this.inputAudioComponent.playPause();
           break;
         case "ArrowLeft":
@@ -153,11 +153,9 @@ export class AppComponent {
     }
   }
 
-  private _resize;
   onResize($event) {
     if (this.inputAudioComponent) {
-      clearTimeout(this._resize);
-      this._resize = setTimeout(this.inputAudioComponent.resizeWavesurfer, 100)
+      this.inputAudioComponent.resizeWavesurfer()
     }
   }
 }

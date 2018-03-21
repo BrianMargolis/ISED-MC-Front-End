@@ -7,7 +7,7 @@
                 <p>Interactive Sound Event Detection - Multiple Classes</p>
             </div>
             <app-loading *ngIf="loading"></app-loading>
-            <app-file-upload *ngIf="!audio" [showHelp]="showHelp" (onFileUpload)="onFileUpload($event)" (onChangeVisualization)="onChangeVisualization($event)"></app-file-upload>
+            <app-file-upload *ngIf="!audio" [showHelp]="showHelp" (onOpenVisualization)="onOpenVisualization($event)"></app-file-upload>
             <app-input-audio *ngIf="audio" [audio]="audio" [regions]="regions" [selectedRegionId]="selectedRegionId" [visualization]="visualization"
                 (onUpdateRegions)="onUpdateRegions($event)" (onSelectRegion)="onSelectRegion($event)" (onLoading)="onLoading($event)"></app-input-audio>
             <br>

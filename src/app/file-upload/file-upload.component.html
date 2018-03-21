@@ -2,8 +2,15 @@
     <div class="col-12 text-center">
         <input [hidden]="true" id="input-file-id" type="file" (change)="input($event)" />
         <label for="input-file-id" class="btn btn-elegant">Choose Audio</label>
-        <button type="button" class="btn btn-elegant" [disabled]="!hasFile" (click)="upload()">Upload</button>
     </div>
+</div>
+<div class="row">
+    <div class="col-12 text-center">
+        <button type="button" class="btn btn-elegant" [disabled]="!hasFile" (click)="visualize('waveform')">Open Waveform</button>
+        <button type="button" class="btn btn-elegant" [disabled]="!hasFile" (click)="visualize('spectrogram')">Open Spectrogram</button>
+    </div>
+</div>
+<div class="row">
     <blockquote class="blockquote bq-elegant" *ngIf="showHelp">
         <p class="bq-title">
             <i class="fa fa-question-circle" aria-hidden="true"></i>
@@ -14,7 +21,4 @@
             to wait for a little while.
         </p>
     </blockquote>
-    <div class="col-12 text-center">
-        <button type="button" class="btn btn-elegant" (click)="toggleVisualization()">{{visualization}}</button>
-    </div>
 </div>

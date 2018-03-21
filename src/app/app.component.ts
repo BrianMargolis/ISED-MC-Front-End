@@ -3,6 +3,7 @@ import * as $ from 'jquery';
 import { InputAudioComponent } from './input-audio/input-audio.component';
 import { BackendService } from './backend.service';
 import { Region } from './region';
+import { Visualization } from './visualization';
 
 
 @Component({
@@ -16,7 +17,6 @@ export class AppComponent {
 
   constructor(private backendService: BackendService, private changeDetectorRef: ChangeDetectorRef) { }
   audio: File;
-
   suggestions: Region[] = [];
   regions: Region[] = [];
   labels: string[] = [];
@@ -27,8 +27,9 @@ export class AppComponent {
   showHelp = true;
   visualization: string;
 
-  onFileUpload($file) {
-    this.audio = $file;
+  onOpenVisualization($visualization: Visualization) {
+    this.audio = $visualization.file;
+    this.visualization = $visualization.visualizationType;
     // This begins the creation of the wavesurfer, so throw up the loading screen.
     this.loading = true;
   }

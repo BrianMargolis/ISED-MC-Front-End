@@ -1,42 +1,28 @@
 import { Component, OnInit, Output, Input, EventEmitter } from '@angular/core';
+import { Visualization } from '../visualization';
 
 @Component({
   selector: 'app-file-upload',
   templateUrl: './file-upload.component.html',
   styleUrls: ['./file-upload.component.scss']
 })
-export class FileUploadComponent implements OnInit  {
-  @Output() onFileUpload = new EventEmitter<File>();
-  @Output() onChangeVisualization = new EventEmitter<string>();
+export class FileUploadComponent {
+  @Output() onOpenVisualization = new EventEmitter<Visualization>();
   @Input() showHelp: boolean;
   private _file: File = null;
-  visualization: string;
-
-  ngOnInit(): void {
-    this.toggleVisualization();
-  }
 
   input($event): void {
     this._file = $event.target.files[0]
   }
 
-  upload(): void {
+  visualize(visualization_type: string): void {
     if (this._file) {
-      this.onFileUpload.emit(this._file)
+      const visualization = new Visualization(this._file, visualization_type);
+      this.onOpenVisualization.emit(visualization);
     }
   }
 
   get hasFile(): boolean {
     return this._file != null;
-  }
-
-  toggleVisualization() {
-    if (this.visualization == "waveform") {
-      this.visualization = "spectrogram";
-    } else {
-      this.visualization = "waveform";
-    }
-
-    this.onChangeVisualization.emit(this.visualization);
   }
 }

@@ -1,4 +1,5 @@
 import { Component, OnInit, EventEmitter, Output, Input } from '@angular/core';
+import * as $ from 'jquery';
 import { } from 'colormap';
 import { Region } from '../region';
 
@@ -15,6 +16,7 @@ export class InputAudioComponent implements OnInit {
   @Input() audio: File;
   @Input() showHelp: boolean;
   @Input() visualization: string;
+  @Input() colors: string[];
 
   private _ws = null;
 
@@ -107,6 +109,7 @@ export class InputAudioComponent implements OnInit {
 
   updateLabel(region) {
     this._ws.regions.list[region.id].update({ "annotation": region.label })
+    $("region[data-id='" + region.id + "']").css({ 'background-color': this.colors[region.label] });
     this.updateRegions();
   }
 

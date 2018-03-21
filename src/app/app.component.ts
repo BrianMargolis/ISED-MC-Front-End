@@ -20,6 +20,7 @@ export class AppComponent {
   suggestions: Region[] = [];
   regions: Region[] = [];
   labels: string[] = [];
+  colors = {};
   selectedRegionId: string = null;
   sessionId: string = null;
   hasSubmitted = false;
@@ -45,19 +46,28 @@ export class AppComponent {
     this.loading = true;
     this.backendService.initiateSession(this.audio, this.regions).subscribe(response => {
       this.sessionId = response.session_id;
-      this.suggestions = response.regions;
-      this.markAllOld();
-      this.inputAudioComponent.addRegions(response.regions);
-      this.markAsNew(response.regions);
-      this.suggestions = this.regions.slice();
-      this.loading = false;
+      this.addRegions(response.regions);
     })
 
+    // Get unique list of labels
     for (var region of this.regions) {
       var label = region.label;
       if (!this.labels.includes(label)) {
         this.labels.push(label);
       }
+    }
+
+
+    // From https://sashat.me/2017/01/11/list-of-20-simple-distinct-colors/
+    // Long term, maybe look into https://en.wikipedia.org/wiki/Color_difference#CMC_l:c_.281984.29
+    const colors = ["#911eb4", "#f58231", "#0082c8", "#ffe119", "#3cb44b", "#e6194b"]
+    for (label of this.labels) {
+      this.colors[label] = colors.pop();
+    }
+
+    // Update labels of all regions so the initial queries get colored
+    for (var region of this.regions) {
+      this.inputAudioComponent.updateLabel(region);
     }
 
     this.hasSubmitted = true;
@@ -66,12 +76,16 @@ export class AppComponent {
   onSubmitFeedback() {
     this.loading = true;
     this.backendService.submitFeedback(this.suggestions, this.regions, this.sessionId).subscribe(response => {
-      this.markAllOld();
-      this.inputAudioComponent.addRegions(response.regions);
-      this.markAsNew(response.regions)
-      this.suggestions = this.regions.slice();
-      this.loading = false;
+      this.addRegions(response.regions);
     })
+  }
+
+  private addRegions(regions: Region[]) {
+    this.inputAudioComponent.addRegions(regions);
+    this.markAllOld();
+    this.markAsNew(regions);
+    this.suggestions = this.regions.slice();
+    this.loading = false;
   }
 
   onUpdateRegions($regions) {

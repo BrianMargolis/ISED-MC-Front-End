@@ -3,26 +3,27 @@ body {
 }
 
 .wavesurfer-region {
-    background-color: rgba(0, 0, 0, .1);
+    background-color: rgb(0, 0, 0);
+    opacity: .3;
 }
 
 .wavesurfer-region.new {
-    animation: pulse_opacity 1s infinite alternate;
-    // background-color: rgba(0, 0, 0, .3);
+    animation: pulse_opacity .5s infinite alternate;
 }
 
 @keyframes pulse_opacity {
     0% {
-        background-color: rgba(0, 0, 0, .3);
+        opacity: .3;
     }
 
     100% {
-        background-color: rgba(200, 0, 0, .5);
+        opacity: .6;
     }
 }
 
 .wavesurfer-region.selected {
-    background-color: rgba(0, 0, 0, .6);
+    animation: none;
+    opacity: .6;
 } 
 
 // Make tags not all caps.

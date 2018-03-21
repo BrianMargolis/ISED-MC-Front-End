@@ -142,8 +142,4 @@ export class AppComponent {
       this._resize = setTimeout(this.inputAudioComponent.resizeWavesurfer, 100)
     }
   }
-
-  onChangeVisualization($event) {
-    this.visualization = $event;
-  }
 }

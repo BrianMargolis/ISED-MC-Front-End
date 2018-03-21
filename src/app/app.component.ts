@@ -114,7 +114,7 @@ export class AppComponent {
         case "Backspace":
           if (this.selectedRegionId) {
             this.inputAudioComponent.deleteRegion(this.selectedRegionId);
-            this.selectedRegionId == null;
+            this.selectedRegionId = null;
           }
           break;
         case " ":

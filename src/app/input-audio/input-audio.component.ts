@@ -33,9 +33,15 @@ export class InputAudioComponent implements OnInit {
   private _ws = null;
 
   private prettyPrintTime(total_seconds: any) {
-    var seconds = Math.round(total_seconds % 60)
+    var seconds = Math.round(total_seconds % 60);
     var minutes = Math.round((total_seconds - seconds) / 60);
-    return "" + minutes + ":" + seconds;
+    var seconds_str = '';
+    if (String(seconds).length == 1) {
+      seconds_str = '0' + seconds
+    } else {
+      seconds_str = '' + seconds
+    }
+    return "" + minutes + ":" + seconds_str;
   }
 
   // Annoyingly, the regions come back as an object with many region members, not a list. 

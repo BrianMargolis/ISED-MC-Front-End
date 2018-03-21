@@ -232,4 +232,19 @@ export class InputAudioComponent implements OnInit {
       this.selectRegion(region_list[i - 1])
     }
   }
+
+  // Horizontal zoom
+  zoomOut() {
+    var current_zoom = this._ws.params.minPxPerSec;
+    if (current_zoom - 5 > 0) {
+      this._ws.zoom(current_zoom - 5)
+    } else {
+      this._ws.zoom(1)
+    }
+  }
+
+  zoomIn() {
+    var current_zoom = this._ws.params.minPxPerSec;
+    this._ws.zoom(current_zoom + 5)
+  }
 }

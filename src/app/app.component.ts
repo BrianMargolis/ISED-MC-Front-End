@@ -157,6 +157,15 @@ export class AppComponent {
           break;
         case "Enter":
           this.lockSelectedRegion();
+          break;
+        case "+":
+        case "=":
+          this.inputAudioComponent.zoomIn();
+          break;
+        case "-":
+        case "_": 
+          this.inputAudioComponent.zoomOut();
+          break;
       }
     }
   }

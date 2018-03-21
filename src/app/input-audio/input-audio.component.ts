@@ -131,7 +131,7 @@ export class InputAudioComponent implements OnInit {
     if (!region) {
       return;
     }
-    this._ws.seekTo(region.start / this._ws.getDuration());
+    this._ws.seekAndCenter(region.start / this._ws.getDuration());
     this.onSelectRegion.emit(region.id);
   }
 

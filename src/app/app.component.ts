@@ -23,7 +23,7 @@ export class AppComponent {
   colors = {};
   selectedRegionId: string = null;
   sessionId: string = null;
-  hasSubmitted = false;
+  hasInitiatedSession = false;
   loading = false;
   showHelp = true;
   visualization: string;
@@ -70,7 +70,7 @@ export class AppComponent {
       this.inputAudioComponent.updateLabel(region);
     }
 
-    this.hasSubmitted = true;
+    this.hasInitiatedSession = true;
   }
 
   onSubmitFeedback() {

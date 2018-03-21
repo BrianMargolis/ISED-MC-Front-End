@@ -17,6 +17,7 @@ export class InputAudioComponent implements OnInit {
   @Input() showHelp: boolean;
   @Input() visualization: string;
   @Input() colors: string[];
+  @Input() hasInitiatedSession: boolean;
 
   private _ws = null;
 
@@ -29,6 +30,18 @@ export class InputAudioComponent implements OnInit {
     for (var region_name in regions) {
       var region = regions[region_name];
       region_list.push(new Region(region.id, region.annotation, region.start, region.end));
+    }
+    return region_list;
+  }
+
+  get newRegionList(): Region[] {
+    var regions = this._ws.regions.list;
+    var region_list = [];
+    for (var region_name in regions) {
+      var region = regions[region_name];
+      if (region.element.classList.contains("new")) {
+        region_list.push(new Region(region.id, region.annotation, region.start, region.end));
+      }
     }
     return region_list;
   }
@@ -160,29 +173,44 @@ export class InputAudioComponent implements OnInit {
 
   // Chronological region navigation with arrow keys
   nextRegion() {
-    var selectedRegion = this._ws.regions.list[this.selectedRegionId];
+    if (this.hasInitiatedSession) {
+      var region_list = this.newRegionList;
+    } else {
+      var region_list = this.regionList;
+    }
+    // Sort by start time
+    region_list.sort(function (r, r2) {
+      return Number(r.start > r2.start) // wrap with Number to make type checker happy
+    })
 
-    this.nearestRegion(region => region.start > selectedRegion.start, (soFar, current) => current.start < soFar.start ? current : soFar);
+    const component = this;
+    const i = region_list.findIndex(function (region) {
+      return region.id == component.selectedRegionId;
+    })
+
+    if (i < region_list.length - 1) {
+      this.selectRegion(region_list[i + 1])
+    }
   }
 
   prevRegion() {
-    var selectedRegion = this._ws.regions.list[this.selectedRegionId];
-
-    this.nearestRegion(region => region.start < selectedRegion.start, (soFar, current) => current.start > soFar.start ? current : soFar);
-  }
-
-  nearestRegion(sidePred: (any) => boolean, nearestPred: (soFar: any, current: any) => any) {
-    if (!this.selectedRegionId) {
-      return;
+    if (this.hasInitiatedSession) {
+      var region_list = this.newRegionList;
+    } else {
+      var region_list = this.regionList;
     }
+    // Sort by start time
+    region_list.sort(function (r, r2) {
+      return Number(r.start > r2.start) // wrap with Number to make type checker happy
+    })
 
-    var region_list = this.regionList;
-    // Get all the regions on one side of the selected region
-    var side = region_list.filter(sidePred)
-    // If there are any, pick the closest one
-    if (side.length > 0) {
-      var nearest = side.reduce(nearestPred);
-      this.selectRegion(nearest);
+    const component = this;
+    const i = region_list.findIndex(function (region) {
+      return region.id == component.selectedRegionId;
+    })
+
+    if (i > 0) {
+      this.selectRegion(region_list[i - 1])
     }
   }
 }

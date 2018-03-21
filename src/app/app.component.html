@@ -9,15 +9,15 @@
             <app-loading *ngIf="loading"></app-loading>
             <app-file-upload *ngIf="!audio" [showHelp]="showHelp" (onOpenVisualization)="onOpenVisualization($event)"></app-file-upload>
             <app-input-audio *ngIf="audio" [colors]="colors" [audio]="audio" [regions]="regions" [selectedRegionId]="selectedRegionId"
-                [visualization]="visualization" (onUpdateRegions)="onUpdateRegions($event)" (onSelectRegion)="onSelectRegion($event)"
-                (onLoading)="onLoading($event)"></app-input-audio>
+                [visualization]="visualization" [hasInitiatedSession]='hasInitiatedSession' (onUpdateRegions)="onUpdateRegions($event)"
+                (onSelectRegion)="onSelectRegion($event)" (onLoading)="onLoading($event)"></app-input-audio>
             <br>
             <br>
-            <app-query-labeling *ngIf="audio && !hasSubmitted" [regions]="regions" [selectedRegionId]="selectedRegionId" [showHelp]="showHelp"
+            <app-query-labeling *ngIf="audio && !hasInitiatedSession" [regions]="regions" [selectedRegionId]="selectedRegionId" [showHelp]="showHelp"
                 (onUpdateLabel)="onUpdateLabel($event)" (onSelectRegion)="onSelectRegion($event)" (onSubmit)="onInitiateSession()"></app-query-labeling>
             <br>
             <br>
-            <app-feedback *ngIf="hasSubmitted" [labels]="labels" [regions]="regions" [selectedRegionId]="selectedRegionId" [showHelp]="showHelp"
+            <app-feedback *ngIf="hasInitiatedSession" [labels]="labels" [regions]="regions" [selectedRegionId]="selectedRegionId" [showHelp]="showHelp"
                 (onUpdateLabel)="onUpdateLabel($event)" (onSubmit)="onSubmitFeedback()"></app-feedback>
         </div>
     </div>
